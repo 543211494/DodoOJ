@@ -8,8 +8,8 @@ use dodooj;
 DROP TABLE IF EXISTS user;
 CREATE TABLE IF NOT EXISTS user
 (
-    uid           bigint auto_increment comment 'uid' primary key,
-    account  varchar(256)                           not null comment '账号',
+    id           bigint auto_increment comment 'id' primary key,
+    account  varchar(256)                           not null unique comment '账号',
     password varchar(512)                           not null comment '密码',
     user_name     varchar(256)                           null comment '用户昵称',
     avatar   varchar(1024)                          null comment '用户头像',
@@ -18,18 +18,19 @@ CREATE TABLE IF NOT EXISTS user
     create_time   datetime     default CURRENT_TIMESTAMP not null comment '创建时间',
     update_time   datetime     default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
     is_delete     tinyint       default 0                 not null comment '是否删除',
-    index idx_uid (uid)
+    index idx_uid (id)
 ) comment '用户' collate = utf8mb4_unicode_ci;
 
 -- 题目表
 DROP TABLE IF EXISTS question;
 CREATE TABLE IF NOT EXISTS question
 (
-    question_id          bigint auto_increment comment 'question_id' primary key,
+    id          bigint auto_increment comment 'id' primary key,
     title       varchar(512)                       null comment '标题',
     content     text                               null comment '内容',
     tags        varchar(1024)                      null comment '标签列表（json 数组）',
     answer      text                               null comment '题目答案',
+    template    text                               null comment '回答模板',
     submit_count   int      default 0                 not null comment '题目提交数',
     accepted_count int      default 0                 not null comment '题目通过数',
     judge_case   text                               null comment '判题用例（json 数组）',
@@ -40,14 +41,14 @@ CREATE TABLE IF NOT EXISTS question
     create_time  datetime default CURRENT_TIMESTAMP not null comment '创建时间',
     update_time  datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
     is_delete    tinyint  default 0                 not null comment '是否删除',
-    index idx_uid (uid)
+    index idx_uid (id)
 ) comment '题目' collate = utf8mb4_unicode_ci;
 
 -- 题目提交表
 DROP TABLE IF EXISTS submit;
 CREATE TABLE IF NOT EXISTS submit
 (
-    submit_id         bigint auto_increment comment 'submit_id' primary key,
+    id         bigint auto_increment comment 'id' primary key,
     language   varchar(128)                       not null comment '编程语言',
     code       text                               not null comment '用户代码',
     judge_info  text                               null comment '判题信息（json 对象）',
@@ -57,7 +58,7 @@ CREATE TABLE IF NOT EXISTS submit
     create_time datetime default CURRENT_TIMESTAMP not null comment '创建时间',
     update_time datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
     is_delete   tinyint  default 0                 not null comment '是否删除',
-    index idx_question_id (question_id),
+    index idx_question_id (id),
     index idx_uid (uid)
 ) comment '题目提交';
 
@@ -65,7 +66,7 @@ CREATE TABLE IF NOT EXISTS submit
 DROP TABLE IF EXISTS post;
 CREATE TABLE IF NOT EXISTS post
 (
-    pid         bigint auto_increment comment 'pid' primary key,
+    id         bigint auto_increment comment 'id' primary key,
     title      varchar(512)                       null comment '标题',
     content    text                               null comment '内容',
     tags       varchar(1024)                      null comment '标签列表（json 数组）',
@@ -82,7 +83,7 @@ CREATE TABLE IF NOT EXISTS post
 DROP TABLE IF EXISTS post_thumb;
 CREATE TABLE IF NOT EXISTS post_thumb
 (
-    post_thumb_id         bigint auto_increment comment 'post_thumb_id' primary key,
+    id         bigint auto_increment comment 'id' primary key,
     pid     bigint                             not null comment '帖子 id',
     uid     bigint                             not null comment '创建用户 id',
     create_time datetime default CURRENT_TIMESTAMP not null comment '创建时间',
@@ -96,7 +97,7 @@ CREATE TABLE IF NOT EXISTS post_thumb
 DROP TABLE IF EXISTS post_favour;
 CREATE TABLE IF NOT EXISTS post_favour
 (
-    post_favour_id         bigint auto_increment comment 'post_favour_id' primary key,
+    id         bigint auto_increment comment 'id' primary key,
     pid     bigint                             not null comment '帖子 id',
     uid     bigint                             not null comment '创建用户 id',
     create_time datetime default CURRENT_TIMESTAMP not null comment '创建时间',
