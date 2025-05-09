@@ -6,6 +6,7 @@ import com.lzy.oj.annotation.AuthCheck;
 import com.lzy.oj.bean.dto.RequestDTO;
 import com.lzy.oj.bean.entity.User;
 import com.lzy.oj.enums.ErrorEnum;
+import com.lzy.oj.enums.UserRoleEnum;
 import com.lzy.oj.exception.BusinessException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -33,7 +34,9 @@ public class AuthInterceptor {
                 throw new BusinessException(ErrorEnum.NO_LOGIN_ERROR);
             }
             User user = JSON.parseObject(value, User.class);
-            if(!user.getRole().equals(role)){
+            UserRoleEnum userRole = UserRoleEnum.getEnumByRole(user.getRole());
+            UserRoleEnum mustRole = UserRoleEnum.getEnumByRole(role);
+            if(userRole.getLevel().intValue()<mustRole.getLevel().intValue()){
                 throw new BusinessException(ErrorEnum.ROLE_ERROR);
             }
         }
