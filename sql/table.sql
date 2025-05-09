@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS user
     user_name     varchar(256)                           null comment '用户昵称',
     avatar   varchar(1024)                          null comment '用户头像',
     profile  varchar(512)                           null comment '用户简介',
-    role     varchar(256) default 'user'            not null comment '用户角色：user/admin/ban',
+    role     varchar(256) default 'USER'            not null comment '用户角色：USER/ADMIN/BAN',
     create_time   datetime     default CURRENT_TIMESTAMP not null comment '创建时间',
     update_time   datetime     default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
     is_delete     tinyint       default 0                 not null comment '是否删除',
