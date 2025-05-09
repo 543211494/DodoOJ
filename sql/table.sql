@@ -30,7 +30,6 @@ CREATE TABLE IF NOT EXISTS question
     content     text                               null comment '内容',
     tags        varchar(1024)                      null comment '标签列表（json 数组）',
     answer      text                               null comment '题目答案',
-    template    text                               null comment '回答模板',
     submit_count   int      default 0                 not null comment '题目提交数',
     accepted_count int      default 0                 not null comment '题目通过数',
     judge_case   text                               null comment '判题用例（json 数组）',

@@ -29,11 +29,11 @@ public class AuthInterceptor {
         if(StringUtils.isNotBlank(role)){
             RequestDTO arg = (RequestDTO) joinPoint.getArgs()[0];
             String value = (String) redisTemplate.opsForValue().get(arg.getToken());
-            System.out.println(value);
             if(StringUtils.isBlank(value)){
                 throw new BusinessException(ErrorEnum.NO_LOGIN_ERROR);
             }
             User user = JSON.parseObject(value, User.class);
+            arg.setUser(user);
             UserRoleEnum userRole = UserRoleEnum.getEnumByRole(user.getRole());
             UserRoleEnum mustRole = UserRoleEnum.getEnumByRole(role);
             if(userRole.getLevel().intValue()<mustRole.getLevel().intValue()){
