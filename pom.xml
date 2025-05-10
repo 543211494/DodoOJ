@@ -5,7 +5,7 @@
   <packaging>pom</packaging>
   <modules>
     <module>oj</module>
-    <module>sandbox</module>
+    <module>sandbox4j</module>
   </modules>
 
   <parent>
@@ -15,7 +15,7 @@
     <relativePath/>
   </parent>
 
-  <groupId>org.example</groupId>
+  <groupId>com.lzy</groupId>
   <artifactId>DodoOJ</artifactId>
   <version>1.0-SNAPSHOT</version>
 
@@ -23,6 +23,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.release>8</maven.compiler.release>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 </project>
