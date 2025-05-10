@@ -5,7 +5,9 @@ public enum ErrorEnum {
     PASSWORD_NOT_EQUAL_ERROR(101,"密码不一致"),
     LOGIN_ERROR(102,"帐号密码错误"),
     NO_LOGIN_ERROR(103,"未登录"),
-    ROLE_ERROR(104,"没有操作权限");
+    ROLE_ERROR(104,"没有操作权限"),
+    LANGUAGE_ERROR(105,"不支持该语言"),
+    QUESTION_NOT_EXIST_ERROR(106,"问题不存在");
 
     private Integer code;
     private String message;

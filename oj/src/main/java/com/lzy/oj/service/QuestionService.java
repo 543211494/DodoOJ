@@ -16,4 +16,6 @@ public interface QuestionService {
     public Boolean deleteQuestion(Long id);
 
     public Question searchQuestionById(Long id);
+
+    public Boolean updateCount(Integer submit, Integer ac, Long id);
 }

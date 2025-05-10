@@ -29,8 +29,8 @@ public class QuestionController {
         question.setContent(questionAddDTO.getContent());
         question.setTags(JSON.toJSONString(questionAddDTO.getTags()));
         question.setAnswer(questionAddDTO.getAnswer());
-        question.setJudgeCase(JSON.toJSONString(questionAddDTO.getJudgeCase()));
-        question.setJudgeConfig(JSON.toJSONString(questionAddDTO.getJudgeConfig()));
+        question.setJudgeCase(questionAddDTO.getJudgeCase());
+        question.setJudgeConfig(questionAddDTO.getJudgeConfig());
         question.setUid(questionAddDTO.getUser().getId());
         return ResponseDTO.success(questionService.addQuestion(question));
     }

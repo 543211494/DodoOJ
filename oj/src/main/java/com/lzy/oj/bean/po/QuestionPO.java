@@ -1,9 +1,12 @@
 package com.lzy.oj.bean.po;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lzy.oj.bean.dto.question.JudgeCase;
+import com.lzy.oj.bean.dto.question.JudgeConfig;
 import com.lzy.oj.bean.entity.Question;
 import lombok.Data;
 
@@ -67,8 +70,8 @@ public class QuestionPO {
         question.setAnswer(questionPO.getAnswer());
         question.setSubmitCount(questionPO.getSubmitCount());
         question.setAcceptedCount(questionPO.getAcceptedCount());
-        question.setJudgeCase(questionPO.getJudgeCase());
-        question.setJudgeConfig(questionPO.getJudgeConfig());
+        question.setJudgeCase(JSON.parseArray(questionPO.getJudgeCase(), JudgeCase.class));
+        question.setJudgeConfig(JSON.parseObject(questionPO.getJudgeConfig(), JudgeConfig.class));
         question.setThumbNum(questionPO.getThumbNum());
         question.setFavourNum(questionPO.getFavourNum());
         question.setUid(questionPO.getUid());
@@ -87,8 +90,8 @@ public class QuestionPO {
         questionPO.setAnswer(question.getAnswer());
         questionPO.setSubmitCount(question.getSubmitCount());
         questionPO.setAcceptedCount(question.getAcceptedCount());
-        questionPO.setJudgeCase(question.getJudgeCase());
-        questionPO.setJudgeConfig(question.getJudgeConfig());
+        questionPO.setJudgeCase(JSON.toJSONString(question.getJudgeCase()));
+        questionPO.setJudgeConfig(JSON.toJSONString(question.getJudgeConfig()));
         questionPO.setThumbNum(question.getThumbNum());
         questionPO.setFavourNum(question.getFavourNum());
         questionPO.setUid(question.getUid());

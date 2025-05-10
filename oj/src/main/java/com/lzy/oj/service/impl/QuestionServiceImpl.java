@@ -67,4 +67,9 @@ public class QuestionServiceImpl implements QuestionService {
         }
         return QuestionPO.po2Question(questionPOS.get(0));
     }
+
+    @Override
+    public Boolean updateCount(Integer submit, Integer ac, Long id) {
+        return questionMapper.updateCount(submit,ac,id) > 0;
+    }
 }

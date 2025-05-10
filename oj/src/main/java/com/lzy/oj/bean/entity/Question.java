@@ -1,8 +1,11 @@
 package com.lzy.oj.bean.entity;
 
+import com.lzy.oj.bean.dto.question.JudgeCase;
+import com.lzy.oj.bean.dto.question.JudgeConfig;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class Question {
@@ -21,9 +24,9 @@ public class Question {
 
     private Integer acceptedCount;
 
-    private String judgeCase;
+    private List<JudgeCase> judgeCase;
 
-    private String judgeConfig;
+    private JudgeConfig judgeConfig;
 
     private Integer thumbNum;
 
