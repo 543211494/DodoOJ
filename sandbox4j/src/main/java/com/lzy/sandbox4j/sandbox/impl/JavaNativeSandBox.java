@@ -128,7 +128,8 @@ public class JavaNativeSandBox implements CodeSandBox {
         executeCodeResponse.setJudgeInfo(judgeInfo);
         List<String> outputs = new ArrayList<>();
 
-        long maxTime = 0L;
+        long maxTime = -1L;
+        long maxMemory = -1L;
         for(ExecuteMessage message : messages){
             if(message.getExitValue().intValue()!=0){
                 executeCodeResponse.setMessage(message.getErrorMessage());
@@ -146,6 +147,8 @@ public class JavaNativeSandBox implements CodeSandBox {
         executeCodeResponse.setMessage(ExecuteEnum.SUCCESS.getText());
         judgeInfo.setMessage(ExecuteEnum.SUCCESS.getText());
         judgeInfo.setTime(maxTime);
+        /* 暂未统计内存占用 */
+        judgeInfo.setMemory(maxMemory);
 
         return executeCodeResponse;
     }

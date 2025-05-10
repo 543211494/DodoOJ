@@ -133,6 +133,7 @@ public class ProcessUtils {
 
         stopWatch.stop();
         executeMessage.setTime(stopWatch.getLastTaskTimeMillis());
+        executeMessage.setMemory(-1L);
         return executeMessage;
     }
 }
