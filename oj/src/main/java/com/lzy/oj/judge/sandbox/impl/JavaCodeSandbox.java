@@ -25,7 +25,6 @@ public class JavaCodeSandbox implements CodeSandBox {
         judgeInfo.setTime(100L);
         judgeInfo.setMessage(JudgeMessageEnum.COMPILE_ERROR.getText());
         response.setJudgeInfo(judgeInfo);
-        response.setStatus(SubmitStatusEnum.SUCCEED.getValue());
         return response;
     }
 
