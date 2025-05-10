@@ -35,12 +35,12 @@ public class JavaCodeSandbox implements CodeSandBox {
     public ExecuteCodeResponse executeCode(ExecuteCodeRequest executeCodeRequest) {
         String url = "http://localhost:8081/api/java/executeCode";
         String json = JSON.toJSONString(executeCodeRequest);
-//        System.out.println(json);
+        System.out.println(json);
         String response = HttpUtil.createPost(url)
                 .body(json)
                 .execute()
                 .body();
-//        System.out.println(response);
+        System.out.println(response);
         return JSON.parseObject(response,ExecuteCodeResponse.class);
     }
 }

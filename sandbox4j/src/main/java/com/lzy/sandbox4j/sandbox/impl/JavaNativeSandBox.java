@@ -46,15 +46,11 @@ public class JavaNativeSandBox implements CodeSandBox {
         try {
             executeMessages = this.runCode(file, executeCodeRequest.getInputList());
         } catch (IOException e) {
-            ExecuteCodeResponse executeCodeResponse = new ExecuteCodeResponse();
-            executeCodeResponse.setMessage(ExecuteEnum.TIME_LIMIT_EXCEEDED.getText());
             this.deleteFile(file);
-            return executeCodeResponse;
-        } catch (InterruptedException e) {
-            ExecuteCodeResponse executeCodeResponse = new ExecuteCodeResponse();
-            executeCodeResponse.setMessage(ExecuteEnum.SYSTEM_ERROR.getText());
+            return createErrorResponse(ExecuteEnum.TIME_LIMIT_EXCEEDED);
+        } catch (Exception e) {
             this.deleteFile(file);
-            return executeCodeResponse;
+            return createErrorResponse(ExecuteEnum.SYSTEM_ERROR);
         }
 
         /* 删除文件 */
@@ -150,6 +146,12 @@ public class JavaNativeSandBox implements CodeSandBox {
         /* 暂未统计内存占用 */
         judgeInfo.setMemory(maxMemory);
 
+        return executeCodeResponse;
+    }
+
+    public ExecuteCodeResponse createErrorResponse(ExecuteEnum errorEnum){
+        ExecuteCodeResponse executeCodeResponse = new ExecuteCodeResponse();
+        executeCodeResponse.setMessage(errorEnum.getText());
         return executeCodeResponse;
     }
 }

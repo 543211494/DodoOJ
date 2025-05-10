@@ -16,12 +16,12 @@ public class JavaJudgeStrategy implements JudgeStrategy {
         /* 程序执行信息 */
         JudgeInfo executeInfo = judgeContext.getResponse().getJudgeInfo();
         JudgeInfo judgeInfo = new JudgeInfo();
-        judgeInfo.setMemory(executeInfo.getMemory());
-        judgeInfo.setTime(executeInfo.getTime());
         if(!judgeContext.getResponse().getMessage().equals(JudgeMessageEnum.SUCCESS.getText())){
-            judgeInfo.setMessage(executeInfo.getMessage());
+            judgeInfo.setMessage(judgeContext.getResponse().getMessage());
             return judgeInfo;
         }
+        judgeInfo.setMemory(executeInfo.getMemory());
+        judgeInfo.setTime(executeInfo.getTime());
 
         List<String> output = judgeContext.getResponse().getOutputList();
         List<String> answer = judgeContext.getQuestion().getJudgeCase()
