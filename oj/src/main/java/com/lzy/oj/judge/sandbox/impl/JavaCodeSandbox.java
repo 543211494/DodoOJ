@@ -19,11 +19,11 @@ public class JavaCodeSandbox implements CodeSandBox {
         outputList.add("2\n");
         outputList.add("3\n");
         response.setOutputList(outputList);
-        // response.setMessage(JudgeMessageEnum.SUCCESS.getText());
+        response.setMessage(JudgeMessageEnum.SUCCESS.getText());
         JudgeInfo judgeInfo = new JudgeInfo();
         judgeInfo.setMemory(100L);
         judgeInfo.setTime(100L);
-        judgeInfo.setMessage(JudgeMessageEnum.COMPILE_ERROR.getText());
+        judgeInfo.setMessage(JudgeMessageEnum.SUCCESS.getText());
         response.setJudgeInfo(judgeInfo);
         return response;
     }

@@ -64,7 +64,7 @@ public class ProcessUtils {
         return executeMessage;
     }
 
-    public static ExecuteMessage runInteractProcess(Process runProcess, String params) {
+    public static ExecuteMessage runInteractProcess(Process runProcess, String params) throws IOException, InterruptedException {
         ExecuteMessage executeMessage = new ExecuteMessage();
 
         /* 计时 */
@@ -100,9 +100,8 @@ public class ProcessUtils {
             executeMessage.setMessage(StringUtils.join(outputStrList,"\n"));
 
             /* 获取错误信息 */
-            InputStream errorStream = null;
             if(exitValue!=0){
-                errorStream = runProcess.getErrorStream();
+                InputStream errorStream = runProcess.getErrorStream();
                 errorBufferedReader = new BufferedReader(new InputStreamReader(errorStream));
                 List<String> errorOutputStrList = new ArrayList<>();
                 String errorCompileOutputLine;
@@ -113,7 +112,7 @@ public class ProcessUtils {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw e;
         } finally {
             /* 释放资源 */
             try {

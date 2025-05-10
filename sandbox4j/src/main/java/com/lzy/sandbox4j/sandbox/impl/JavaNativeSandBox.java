@@ -20,7 +20,7 @@ import java.util.UUID;
 @Component
 public class JavaNativeSandBox implements CodeSandBox {
 
-    private static final String GLOBAL_CODE_DIR_NAME = "tmpCode";
+    private static final String GLOBAL_CODE_DIR_NAME = "tempcode";
 
     private static final String GLOBAL_JAVA_CLASS_NAME = "Main.java";
 
@@ -29,9 +29,35 @@ public class JavaNativeSandBox implements CodeSandBox {
 
     @Override
     public ExecuteCodeResponse executeCode(ExecuteCodeRequest executeCodeRequest) {
+        /* 保存代码 */
         File file = this.saveCode(executeCodeRequest.getCode());
-        this.compile(file);
-        List<ExecuteMessage> executeMessages = this.runCode(file, executeCodeRequest.getInputList());
+
+        /* 编译代码 */
+        ExecuteMessage compileMessage = this.compile(file);
+        if(compileMessage.getExitValue()!=0){
+            ExecuteCodeResponse executeCodeResponse = new ExecuteCodeResponse();
+            executeCodeResponse.setMessage(ExecuteEnum.COMPILE_ERROR.getText());
+            this.deleteFile(file);
+            return executeCodeResponse;
+        }
+
+        /* 运行代码 */
+        List<ExecuteMessage> executeMessages = null;
+        try {
+            executeMessages = this.runCode(file, executeCodeRequest.getInputList());
+        } catch (IOException e) {
+            ExecuteCodeResponse executeCodeResponse = new ExecuteCodeResponse();
+            executeCodeResponse.setMessage(ExecuteEnum.TIME_LIMIT_EXCEEDED.getText());
+            this.deleteFile(file);
+            return executeCodeResponse;
+        } catch (InterruptedException e) {
+            ExecuteCodeResponse executeCodeResponse = new ExecuteCodeResponse();
+            executeCodeResponse.setMessage(ExecuteEnum.SYSTEM_ERROR.getText());
+            this.deleteFile(file);
+            return executeCodeResponse;
+        }
+
+        /* 删除文件 */
         this.deleteFile(file);
         ExecuteCodeResponse response = this.getResponse(executeMessages);
         return response;
@@ -58,12 +84,13 @@ public class JavaNativeSandBox implements CodeSandBox {
         return null;
     }
 
-    public List<ExecuteMessage> runCode(File codeFile, List<String> inputs){
+    public List<ExecuteMessage> runCode(File codeFile, List<String> inputs) throws IOException, InterruptedException {
         String path = codeFile.getParentFile().getAbsolutePath();
         List<ExecuteMessage> executeMessageList = new ArrayList<>();
         for(String input : inputs){
             String runCmd = String.format("java -Xmx256m -Dfile.encoding=UTF-8 -cp %s Main", path);
             try {
+                boolean flag = false;
                 Process runProcess = Runtime.getRuntime().exec(runCmd);
                 new Thread(() -> {
                     /* 防止超时 */
@@ -75,9 +102,12 @@ public class JavaNativeSandBox implements CodeSandBox {
                     }
                 }).start();
                 ExecuteMessage executeMessage = ProcessUtils.runInteractProcess(runProcess,input);
+//                System.out.println(executeMessage);
                 executeMessageList.add(executeMessage);
             } catch (IOException e) {
-                e.printStackTrace();
+                throw e;
+            }catch (Exception e) {
+                throw e;
             }
         }
 
@@ -100,13 +130,13 @@ public class JavaNativeSandBox implements CodeSandBox {
 
         long maxTime = 0L;
         for(ExecuteMessage message : messages){
-            if(message.getErrorMessage()!=null&&!message.getErrorMessage().equals("")){
+            if(message.getExitValue().intValue()!=0){
                 executeCodeResponse.setMessage(message.getErrorMessage());
-                judgeInfo.setMessage(message.getErrorMessage());
+                judgeInfo.setMessage(ExecuteEnum.RUNTIME_ERROR.getText());
                 judgeInfo.setTime(maxTime);
                 return executeCodeResponse;
             }
-            outputs.add(message.getMessage());
+            outputs.add(message.getMessage()+"\n");
 
             if(maxTime < message.getTime().longValue()){
                 maxTime = message.getTime();

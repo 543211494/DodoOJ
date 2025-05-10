@@ -18,7 +18,7 @@ public class JavaJudgeStrategy implements JudgeStrategy {
         JudgeInfo judgeInfo = new JudgeInfo();
         judgeInfo.setMemory(executeInfo.getMemory());
         judgeInfo.setTime(executeInfo.getTime());
-        if(!executeInfo.getMessage().equals(JudgeMessageEnum.SUCCESS.getText())){
+        if(!judgeContext.getResponse().getMessage().equals(JudgeMessageEnum.SUCCESS.getText())){
             judgeInfo.setMessage(executeInfo.getMessage());
             return judgeInfo;
         }
