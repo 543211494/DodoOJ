@@ -19,9 +19,9 @@ import java.util.UUID;
 
 public class SandBoxTemplate implements CodeSandBox {
 
-    private static final String GLOBAL_CODE_DIR_NAME = "tempcode";
+    protected static final String GLOBAL_CODE_DIR_NAME = "tempcode";
 
-    private static final long TIME_LIMIT = 5000L;
+    protected static final long TIME_LIMIT = 5000L;
 
 
     @Override
@@ -32,10 +32,8 @@ public class SandBoxTemplate implements CodeSandBox {
         /* 编译代码 */
         ExecuteMessage compileMessage = this.compile(file);
         if(compileMessage.getExitValue()!=0){
-            ExecuteCodeResponse executeCodeResponse = new ExecuteCodeResponse();
-            executeCodeResponse.setMessage(ExecuteEnum.COMPILE_ERROR.getText());
             this.deleteFile(file);
-            return executeCodeResponse;
+            return createErrorResponse(ExecuteEnum.COMPILE_ERROR);
         }
 
         /* 运行代码 */
@@ -43,11 +41,11 @@ public class SandBoxTemplate implements CodeSandBox {
         try {
             executeMessages = this.runCode(file, executeCodeRequest.getInputList());
         } catch (IOException e) {
-            this.deleteFile(file);
             return createErrorResponse(ExecuteEnum.TIME_LIMIT_EXCEEDED);
         } catch (Exception e) {
-            this.deleteFile(file);
             return createErrorResponse(ExecuteEnum.SYSTEM_ERROR);
+        } finally {
+            this.deleteFile(file);
         }
 
         /* 删除文件 */
@@ -80,8 +78,8 @@ public class SandBoxTemplate implements CodeSandBox {
     public List<ExecuteMessage> runCode(File codeFile, List<String> inputs) throws IOException, InterruptedException {
         String path = codeFile.getParentFile().getAbsolutePath();
         List<ExecuteMessage> executeMessageList = new ArrayList<>();
+        String runCmd = this.createRunCmd(path);
         for(String input : inputs){
-            String runCmd = this.createRunCmd(path);
             try {
                 boolean flag = false;
                 Process runProcess = Runtime.getRuntime().exec(runCmd);
@@ -125,15 +123,23 @@ public class SandBoxTemplate implements CodeSandBox {
         long maxMemory = -1L;
         for(ExecuteMessage message : messages){
             if(message.getExitValue().intValue()!=0){
-                executeCodeResponse.setMessage(message.getErrorMessage());
+                executeCodeResponse.setMessage(ExecuteEnum.RUNTIME_ERROR.getText());
                 judgeInfo.setMessage(ExecuteEnum.RUNTIME_ERROR.getText());
                 judgeInfo.setTime(maxTime);
                 return executeCodeResponse;
             }
-            outputs.add(message.getMessage()+"\n");
+            if(!message.getMessage().endsWith("\n")){
+                outputs.add(message.getMessage()+"\n");
+            }else{
+                outputs.add(message.getMessage());
+            }
 
             if(maxTime < message.getTime().longValue()){
                 maxTime = message.getTime();
+            }
+
+            if(maxMemory < message.getMemory().longValue()){
+                maxMemory = message.getMemory();
             }
         }
         executeCodeResponse.setOutputList(outputs);
@@ -153,14 +159,14 @@ public class SandBoxTemplate implements CodeSandBox {
     }
 
     public String createCompileCmd(String filePath){
-        return null;
+        throw new UnsupportedOperationException("This method must be overridden by subclasses.");
     }
 
     public String createRunCmd(String path){
-        return null;
+        throw new UnsupportedOperationException("This method must be overridden by subclasses.");
     }
 
     public String codeFileName(){
-        return null;
+        throw new UnsupportedOperationException("This method must be overridden by subclasses.");
     }
 }

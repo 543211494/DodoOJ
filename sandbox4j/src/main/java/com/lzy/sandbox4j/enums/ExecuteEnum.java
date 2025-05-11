@@ -17,6 +17,15 @@ public enum ExecuteEnum {
         this.value = value;
     }
 
+    public static ExecuteEnum getEnumByText(String text){
+        for(ExecuteEnum executeEnum : ExecuteEnum.values()){
+            if(executeEnum.getText().equals(text)){
+                return executeEnum;
+            }
+        }
+        return null;
+    }
+
     public String getText() {
         return text;
     }
