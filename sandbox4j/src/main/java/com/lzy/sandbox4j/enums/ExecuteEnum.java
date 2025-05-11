@@ -18,6 +18,9 @@ public enum ExecuteEnum {
     }
 
     public static ExecuteEnum getEnumByText(String text){
+        if(text==null||text.equals("")){
+            return null;
+        }
         for(ExecuteEnum executeEnum : ExecuteEnum.values()){
             if(executeEnum.getText().equals(text)){
                 return executeEnum;

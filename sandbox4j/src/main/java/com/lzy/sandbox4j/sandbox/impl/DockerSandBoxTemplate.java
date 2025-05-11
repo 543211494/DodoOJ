@@ -9,6 +9,7 @@ import com.github.dockerjava.core.DockerClientImpl;
 import com.github.dockerjava.core.command.ExecStartResultCallback;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
+import com.lzy.sandbox4j.enums.ExecuteEnum;
 import com.lzy.sandbox4j.sandbox.dto.ExecuteMessage;
 import org.springframework.util.StopWatch;
 
@@ -42,7 +43,6 @@ public class DockerSandBoxTemplate extends SandBoxTemplate{
         String[] files = codeFile.getAbsolutePath().split(File.separator);
         String path = File.separator + "app" + File.separator + files[files.length-2] + File.separator + files[files.length-1];
         String compileCmd = createCompileCmd(path);
-        System.out.println(compileCmd);
         ExecuteMessage executeMessage = this.executeCmd(containerId,compileCmd,null);
         return executeMessage;
     }
@@ -58,7 +58,12 @@ public class DockerSandBoxTemplate extends SandBoxTemplate{
         String path = File.separator + "app" + File.separator + files[files.length-2];
         String runCmd = this.createRunCmd(path);
         for(String input : inputs){
-            messages.add(this.executeCmd(containerId,runCmd,input));
+            ExecuteMessage executeMessage = this.executeCmd(containerId, runCmd, input);
+            messages.add(executeMessage);
+            if(executeMessage.getExitValue().intValue()!=0){
+                break;
+            }
+
         }
         return messages;
     }
@@ -164,7 +169,11 @@ public class DockerSandBoxTemplate extends SandBoxTemplate{
         }else{
             executeMessage.setExitValue(0);
         }
-        System.out.println(executeMessage);
+        if(timeout[0]){
+            executeMessage.setExitValue(-1);
+            executeMessage.setErrorMessage(ExecuteEnum.TIME_LIMIT_EXCEEDED.getText());
+        }
+//        System.out.println(executeMessage);
         return executeMessage;
     }
 
@@ -224,7 +233,6 @@ public class DockerSandBoxTemplate extends SandBoxTemplate{
         System.out.println("abc"+createContainerResponse);
         String containerId = createContainerResponse.getId();
         dockerClient.startContainerCmd(containerId).exec();
-        System.out.println(containerId);
         return containerId;
     }
 }

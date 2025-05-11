@@ -122,10 +122,25 @@ public class SandBoxTemplate implements CodeSandBox {
         long maxTime = -1L;
         long maxMemory = -1L;
         for(ExecuteMessage message : messages){
+
+            if(message.getTime()!=null && maxTime < message.getTime().longValue()){
+                maxTime = message.getTime();
+            }
+
+            if(message.getMemory()!=null && maxMemory < message.getMemory().longValue()){
+                maxMemory = message.getMemory();
+            }
+
             if(message.getExitValue().intValue()!=0){
-                executeCodeResponse.setMessage(ExecuteEnum.RUNTIME_ERROR.getText());
-                judgeInfo.setMessage(ExecuteEnum.RUNTIME_ERROR.getText());
+                if(ExecuteEnum.getEnumByText(message.getErrorMessage())!=null){
+                    executeCodeResponse.setMessage(message.getErrorMessage());
+                    judgeInfo.setMessage(message.getErrorMessage());
+                }else{
+                    executeCodeResponse.setMessage(ExecuteEnum.RUNTIME_ERROR.getText());
+                    judgeInfo.setMessage(ExecuteEnum.RUNTIME_ERROR.getText());
+                }
                 judgeInfo.setTime(maxTime);
+                judgeInfo.setMemory(maxMemory);
                 return executeCodeResponse;
             }
             if(!message.getMessage().endsWith("\n")){
@@ -133,20 +148,11 @@ public class SandBoxTemplate implements CodeSandBox {
             }else{
                 outputs.add(message.getMessage());
             }
-
-            if(maxTime < message.getTime().longValue()){
-                maxTime = message.getTime();
-            }
-
-            if(maxMemory < message.getMemory().longValue()){
-                maxMemory = message.getMemory();
-            }
         }
         executeCodeResponse.setOutputList(outputs);
         executeCodeResponse.setMessage(ExecuteEnum.SUCCESS.getText());
         judgeInfo.setMessage(ExecuteEnum.SUCCESS.getText());
         judgeInfo.setTime(maxTime);
-        /* 暂未统计内存占用 */
         judgeInfo.setMemory(maxMemory);
 
         return executeCodeResponse;
