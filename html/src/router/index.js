@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 const Home = () => import('@/components/Home')
 const Login = () => import('@/components/Login')
 const Register = () => import('@/components/Register')
+const QuestionDetail = () => import('@/components/question/QuestionDetail')
 
 const router = new VueRouter({
     routes: [{
@@ -20,6 +21,11 @@ const router = new VueRouter({
         path: '/register',
         component: Register,
         meta:{power:'noLogin',title:'用户注册'},
+        children: [],
+    },{
+        path: '/question-detail/:id',
+        component: QuestionDetail,
+        meta:{power:'noLogin',title:'题目详情'},
         children: [],
     }]
 })

@@ -7,7 +7,7 @@ public class CodeSandboxFactory {
 
     public static CodeSandBox newInstance(String type) {
         switch (type) {
-            case "JAVA":
+            case "java":
                 return new JavaCodeSandbox();
             default:
                 return new JavaCodeSandbox();

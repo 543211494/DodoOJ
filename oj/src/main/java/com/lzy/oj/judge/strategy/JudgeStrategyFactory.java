@@ -6,7 +6,7 @@ public class JudgeStrategyFactory {
 
     public static JudgeStrategy newInstance(String type){
         switch (type) {
-            case "JAVA":
+            case "java":
                 return new JavaJudgeStrategy();
             default:
                 return new JavaJudgeStrategy();

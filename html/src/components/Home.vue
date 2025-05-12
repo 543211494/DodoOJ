@@ -26,7 +26,7 @@
                     <el-pagination
                         layout="prev, pager, next"
                         :current-page="currentPage"
-                        :pager-count="3"
+                        :pager-count="5"
                         @current-change="handleCurrentChange"
                         :total="total"
                         class="custom-page"
@@ -60,7 +60,10 @@ export default {
     },
     methods:{
         gotoQuestion(questionId){
-            console.log(questionId);
+            this.$router.push({
+                path:'/question-detail/'+questionId,
+            })
+        
         },
         handleCurrentChange(val){
             console.log("页码被点击"+val)
@@ -139,7 +142,7 @@ export default {
 .questions-tags p{
     margin-left: 5px;
     margin-right: 5px;
-    padding: 3px 6px 3px 6px;
+    padding: 3px 15px 3px 15px;
     border-radius: 3px;
     background-color: #19BE6B;
     color: #FFFFFF;
@@ -168,6 +171,39 @@ export default {
 .custom-page >>> .btn-next {
   margin: 0 5px;
   background: #FFFFFF;
+}
+@media screen and (max-width: 900px){
+.question{
+    width: 96%;
+}
+.question-list-nav{
+    height: 50px;
+}
+.question-list-nav > div:nth-child(1){
+    padding-left: 5px;
+    font-size: 15px;
+    width: 30%;
+}
+.question-list-title > div,.questions{
+    font-size: 12px;
+}
+.question-list-title > div,
+.questions>div{
+    width: 40%;
+}
+.question-list-title > div:first-child,
+.questions>div:first-child{
+    width: 5%;
+}
+.question-list-title > div:last-child,
+.questions>div:last-child{
+    width: 15%;
+}
+.questions-tags p{
+    margin-left: 2px;
+    margin-right: 2px;
+    padding: 3px 5px 3px 5px;
+}
 }
 </style>
   
