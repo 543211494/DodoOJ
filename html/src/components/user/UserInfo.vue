@@ -131,10 +131,26 @@ export default {
 .submit-btn > div:hover{
     background-color: #1171EE;
 }
-/* .info-input /deep/ .el-input__inner,
+
+@media screen and (max-width: 900px){
+.title > p{
+    font-size: 18px
+}
+.submit-btn{
+    margin-bottom: 50px;
+}
+.submit-btn > div{
+    padding:10px 50px 10px 50px;
+}
+
+.info-input p{
+    font-size: 12px;
+}
+.info-input /deep/ .el-input__inner,
 .info-input /deep/ .el-input{
     height: 30px;
     line-height: 30px;
-} */
+}
+}
 </style>
   

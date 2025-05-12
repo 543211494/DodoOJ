@@ -24,7 +24,7 @@
         <div class="user-choice">
             <div class="user-btn" v-show="!isLogin" @click='goto("/login")'>登录</div>
             <div class="user-btn" v-show="!isLogin" @click='goto("/register")'>注册</div>
-            <div class="user-avatar" v-show="isLogin">
+            <div class="user-avatar" v-show="isLogin" @click="goto('/user')">
                 <img :src="require('../assets/avatar.jpg')"/>
                 <p>{{userName}}</p>
             </div>

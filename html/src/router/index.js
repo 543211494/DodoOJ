@@ -39,6 +39,7 @@ const router = new VueRouter({
     },{
         path: '/user',
         component: User,
+        redirect: '/user/userInfo',
         children: [{
             path: 'userInfo',
             component: UserInfo,

@@ -62,7 +62,7 @@ export default {
 }
 .user-container{
     width: 90%;
-    height: 800px;
+    margin-bottom: 100px;
     display: flex;
     padding: 5px;
     border-radius: 3px;

@@ -20,12 +20,12 @@ export default {
 </script>
   
 <style scoped>
-/* .question-add-container, .question-add-container *{
+.question-add-container, .question-add-container *{
     border: 1px red solid;
-} */
+}
 .title{
     display: flex;
-    margin-left: 20px;
+    margin-left: 1%;
     margin-top: 10px;
     margin-bottom: 10px;
 }
@@ -35,6 +35,11 @@ export default {
     color: #495060;
     font-weight: bolder;
     font-size: 32px;
+}
+@media screen and (max-width: 900px){
+.title > p{
+    font-size: 18px
+}
 }
 </style>
   
