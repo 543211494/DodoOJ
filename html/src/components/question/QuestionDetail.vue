@@ -21,16 +21,21 @@
                     </mavon-editor>
                 </div>
                 <div class="code-editor">
-                    <div class="language-choice">
-                        <p>编程语言：</p>
-                        <el-select v-model="language" placeholder="请选择" class="language-select">
-                            <el-option
-                                v-for="item in options"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-                            </el-option>
-                        </el-select>
+                    <div class="language-choice-container">
+                        <div class="language-choice">
+                            <p>编程语言：</p>
+                            <el-select v-model="language" placeholder="请选择" class="language-select">
+                                <el-option
+                                    v-for="item in options"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </div>
+                        <div class="submit-btn">
+                            <div @click="submit">提交代码</div>
+                        </div>
                     </div>
                     <div class="code-editor-body">
                         <CodeEditor
@@ -38,14 +43,11 @@
                             :language="language">
                         </CodeEditor>
                     </div>
-                    <div class="submit-btn">
-                        <div @click="submit">提交代码</div>
-                    </div>
                 </div>
             </div>
             <div class="right-container">
                 <div class="submit-log" @click="gotoSubmit">
-                    <i class="el-icon-s-grid">提交记录</i>
+                    <i class="el-icon-tickets">提交记录</i>
                 </div>
 
                 <div class="question-info">
@@ -108,7 +110,9 @@ export default {
     },
     methods:{
         gotoSubmit(){
-            console.log(this.code);
+            this.$router.push({
+                path:"/submit?questionId="+this.question.id
+            });
         },
         submit(){
             console.log(this.code);
@@ -152,7 +156,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     background-color: #FFFFFF;
-    padding: 10px 10px 10px 10px;
+    padding: 20px 10px 20px 10px;
 }
 .question-title{
     font-size: 26px;
@@ -175,13 +179,22 @@ export default {
     margin-top: 10px;
 }
 .code-editor-body{
-    height: 500px;
+    height: 300px;
+    margin-bottom: 100px;
+}
+
+/* 编程语言选择部分 */
+.language-choice-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 .language-choice{
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
-    padding-left: 5px;
 }
 .language-choice p{
     color: #495060;
@@ -189,6 +202,21 @@ export default {
 .language-select /deep/ .el-input__inner{
     height: 30px;
     line-height: 30px;
+}
+
+.submit-btn{
+    display: flex;
+    align-items: center;
+}
+.submit-btn > div{
+    padding:5px 80px 5px 80px;
+    color: #FFFFFF;
+    background-color: #1E80FF;
+    cursor: pointer;
+    font-weight: bold;
+}
+.submit-btn > div:hover{
+    background-color: #1171EE;
 }
 
 /* 提交记录按钮 */
@@ -212,22 +240,6 @@ export default {
 }
 .submit-log > i:hover{
     color: #5CADFF;
-}
-.submit-btn{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-top: 10px;
-    margin-bottom: 150px;
-}
-.submit-btn > div{
-    padding:10px 80px 10px 80px;
-    color: #FFFFFF;
-    background-color: #1E80FF;
-    cursor: pointer;
-}
-.submit-btn > div:hover{
-    background-color: #1171EE;
 }
 
 
@@ -271,6 +283,9 @@ export default {
 .right-container{
     display: none;
 }
+.question-title-container{
+    padding: 10px 10px 10px 10px;
+}
 .question-title{
     font-size: 18px;
 }
@@ -279,8 +294,16 @@ export default {
     padding: 3px 5px 3px 5px;
     font-size: 12px;
 }
+.language-choice p{
+    color: #495060;
+    font-size: 12px;
+}
+.language-select /deep/ .el-input__inner{
+    width: 120px;
+}
 .submit-btn > div{
     padding:8px 30px 8px 30px;
+    font-size: 12px;
 }
 }
 </style>

@@ -8,13 +8,13 @@
                 <i class="el-icon-edit"></i>
                 <p>题库</p>
             </div>
-            <div @click="goto('/')">
-                <i class="el-icon-edit"></i>
-                <p>题库</p>
+            <div @click="goto('/submit')">
+                <i class="el-icon-tickets"></i>
+                <p>提交记录</p>
             </div>
-            <div @click="goto('/')">
-                <i class="el-icon-edit"></i>
-                <p>题库</p>
+            <div @click="goto('/user')">
+                <i class="el-icon-user"></i>
+                <p>个人中心</p>
             </div>
             <div @click="goto('/')">
                 <i class="el-icon-edit"></i>

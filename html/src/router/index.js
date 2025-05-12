@@ -5,6 +5,10 @@ const Home = () => import('@/components/Home')
 const Login = () => import('@/components/Login')
 const Register = () => import('@/components/Register')
 const QuestionDetail = () => import('@/components/question/QuestionDetail')
+const Submission = () => import('@/components/question/Submission')
+const User = () => import('@/components/user/User')
+const UserInfo = () => import('@/components/user/UserInfo')
+const QuestionAdd = () => import('@/components/question/QuestionAdd')
 
 const router = new VueRouter({
     routes: [{
@@ -27,6 +31,25 @@ const router = new VueRouter({
         component: QuestionDetail,
         meta:{power:'noLogin',title:'题目详情'},
         children: [],
+    },{
+        path: '/submit',
+        component: Submission,
+        meta:{power:'noLogin',title:'提交列表'},
+        children: [],
+    },{
+        path: '/user',
+        component: User,
+        children: [{
+            path: 'userInfo',
+            component: UserInfo,
+            meta:{power:'noLogin',title:'个人信息'},
+            children: [],
+        },{
+            path: 'addQuestion',
+            component: QuestionAdd,
+            meta:{power:'noLogin',title:'添加题目'},
+            children: [],
+        }],
     }]
 })
 
