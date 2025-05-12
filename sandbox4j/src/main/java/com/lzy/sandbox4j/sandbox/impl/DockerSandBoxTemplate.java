@@ -111,22 +111,24 @@ public class DockerSandBoxTemplate extends SandBoxTemplate{
 
         // 获取占用的内存
         StatsCmd statsCmd = dockerClient.statsCmd(containerId);
-        ResultCallback<Statistics> statisticsResultCallback = statsCmd.exec(new ResultCallback<Statistics>() {
+        ResultCallback<Statistics> resultCallback = new ResultCallback<Statistics>() {
+
+            private Closeable closeable;
 
             @Override
             public void onNext(Statistics statistics) {
-                //System.out.println("内存占用：" + statistics.getMemoryStats().getUsage());
+                //System.out.println(cmd + "内存占用：" + statistics.getMemoryStats().getUsage());
                 maxMemory[0] = Math.max(statistics.getMemoryStats().getUsage(), maxMemory[0]);
             }
 
             @Override
             public void close() throws IOException {
-
+                this.closeable.close();
             }
 
             @Override
             public void onStart(Closeable closeable) {
-
+                this.closeable = closeable;
             }
 
             @Override
@@ -138,8 +140,8 @@ public class DockerSandBoxTemplate extends SandBoxTemplate{
             public void onComplete() {
 
             }
-        });
-        statsCmd.exec(statisticsResultCallback);
+        };
+        statsCmd.exec(resultCallback);
         try {
             StopWatch stopWatch = new StopWatch();
             stopWatch.start();
@@ -155,14 +157,20 @@ public class DockerSandBoxTemplate extends SandBoxTemplate{
             }
             stopWatch.stop();
             time = stopWatch.getLastTaskTimeMillis();
-            statsCmd.close();
         } catch (InterruptedException e) {
-            System.out.println("程序执行异常");
             throw new RuntimeException(e);
+        }finally {
+            try {
+                Thread.sleep(time<TIME_LIMIT?time:TIME_LIMIT);
+                resultCallback.close();
+            } catch (Exception e) {
+            }
+            statsCmd.close();
         }
         executeMessage.setMessage(message[0]);
         executeMessage.setErrorMessage(errorMessage[0]);
         executeMessage.setTime(time);
+        /* 单位：KB */
         executeMessage.setMemory(maxMemory[0]/1024);
         if(errorMessage[0]!=null){
             executeMessage.setExitValue(-1);

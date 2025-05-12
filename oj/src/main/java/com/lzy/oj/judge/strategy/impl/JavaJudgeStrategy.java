@@ -11,6 +11,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class JavaJudgeStrategy implements JudgeStrategy {
+
+    /**
+     * 运行容器所需额外的内存
+     */
+    private static long CONTAINER_MEMORY = 32768L;
+
     @Override
     public JudgeInfo doJudge(JudgeContext judgeContext) {
         /* 程序执行信息 */
@@ -43,7 +49,7 @@ public class JavaJudgeStrategy implements JudgeStrategy {
         }
 
         /*  检查限制条件 */
-        if(executeInfo.getMemory().longValue() > limitConfig.getMemoryLimit().longValue()){
+        if(executeInfo.getMemory().longValue() > limitConfig.getMemoryLimit().longValue()+CONTAINER_MEMORY){
             judgeInfo.setMessage(JudgeMessageEnum.MEMORY_LIMIT_EXCEEDED.getText());
             return judgeInfo;
         }
