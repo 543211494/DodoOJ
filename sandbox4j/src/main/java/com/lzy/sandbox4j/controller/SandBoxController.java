@@ -4,6 +4,7 @@ import com.lzy.sandbox4j.sandbox.dto.ExecuteCodeRequest;
 import com.lzy.sandbox4j.sandbox.dto.ExecuteCodeResponse;
 import com.lzy.sandbox4j.sandbox.impl.JavaDockerSandBox;
 import com.lzy.sandbox4j.sandbox.impl.JavaNativeSandBox;
+import com.lzy.sandbox4j.sandbox.impl.PythonDockerSandBox;
 import com.lzy.sandbox4j.sandbox.impl.SandBoxTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,9 +21,17 @@ public class SandBoxController {
     @Resource
     private JavaDockerSandBox javaDockerSandBox;
 
+    @Resource
+    private PythonDockerSandBox pythonDockerSandBox;
+
     @PostMapping("/java/executeCode")
     ExecuteCodeResponse executeCode(@RequestBody ExecuteCodeRequest executeCodeRequest) {
         //return javaNativeSandBox.executeCode(executeCodeRequest);
         return javaDockerSandBox.executeCode(executeCodeRequest);
+    }
+
+    @PostMapping("/python/executeCode")
+    ExecuteCodeResponse executePyCode(@RequestBody ExecuteCodeRequest executeCodeRequest) {
+        return pythonDockerSandBox.executeCode(executeCodeRequest);
     }
 }
