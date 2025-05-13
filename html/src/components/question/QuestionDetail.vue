@@ -99,7 +99,7 @@ export default {
                     memoryLimit:0,
                     timeLimit:0
                 },
-                tag:[]
+                tags:[]
             }
         }
     },
