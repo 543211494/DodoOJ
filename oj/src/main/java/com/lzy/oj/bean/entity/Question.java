@@ -16,7 +16,7 @@ public class Question {
 
     private String content;
 
-    private String tags;
+    private List<String> tags;
 
     private String answer;
 

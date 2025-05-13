@@ -66,7 +66,7 @@ public class QuestionPO {
         question.setId(questionPO.getId());
         question.setTitle(questionPO.getTitle());
         question.setContent(questionPO.getContent());
-        question.setTags(questionPO.getTags());
+        question.setTags(JSON.parseArray(questionPO.getTags(),String.class));
         question.setAnswer(questionPO.getAnswer());
         question.setSubmitCount(questionPO.getSubmitCount());
         question.setAcceptedCount(questionPO.getAcceptedCount());
@@ -86,7 +86,7 @@ public class QuestionPO {
         questionPO.setId(question.getId());
         questionPO.setTitle(question.getTitle());
         questionPO.setContent(question.getContent());
-        questionPO.setTags(question.getTags());
+        questionPO.setTags(JSON.toJSONString(question.getTags()));
         questionPO.setAnswer(question.getAnswer());
         questionPO.setSubmitCount(question.getSubmitCount());
         questionPO.setAcceptedCount(question.getAcceptedCount());

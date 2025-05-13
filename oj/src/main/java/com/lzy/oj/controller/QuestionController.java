@@ -38,7 +38,7 @@ public class QuestionController {
         }
         question.setTitle(questionAddDTO.getTitle());
         question.setContent(questionAddDTO.getContent());
-        question.setTags(JSON.toJSONString(questionAddDTO.getTags()));
+        question.setTags(questionAddDTO.getTags());
         question.setAnswer(questionAddDTO.getAnswer());
         question.setJudgeCase(questionAddDTO.getJudgeCase());
         question.setJudgeConfig(questionAddDTO.getJudgeConfig());

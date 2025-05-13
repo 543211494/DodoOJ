@@ -3,10 +3,7 @@ package com.lzy.oj.controller;
 import com.alibaba.fastjson.JSON;
 import com.lzy.oj.annotation.AuthCheck;
 import com.lzy.oj.bean.dto.ResponseDTO;
-import com.lzy.oj.bean.dto.user.LoginDTO;
-import com.lzy.oj.bean.dto.user.LoginResponseDTO;
-import com.lzy.oj.bean.dto.user.LogoutDTO;
-import com.lzy.oj.bean.dto.user.RegisterDTO;
+import com.lzy.oj.bean.dto.user.*;
 import com.lzy.oj.bean.entity.User;
 import com.lzy.oj.enums.ErrorEnum;
 import com.lzy.oj.constant.UserRoleConstant;
@@ -74,5 +71,23 @@ public class UserController {
     public ResponseDTO<Boolean> logout(@RequestBody LogoutDTO logoutDTO){
         redisTemplate.delete(logoutDTO.getToken());
         return ResponseDTO.success(true);
+    }
+
+    @RequestMapping(value = "/updateInfo",method = RequestMethod.POST)
+    @AuthCheck(role = UserRoleConstant.USER)
+    public ResponseDTO<User> updateUser(@RequestBody UpdateDTO updateDTO){
+        if(!updateDTO.validate()){
+            throw new BusinessException(ErrorEnum.PARAM_ERROR);
+        }
+        User user = updateDTO.getUser();
+        user.setUserName(updateDTO.getUserName());
+        user.setEmail(updateDTO.getEmail());
+        userService.updateUser(user);
+        String prefix = TOKEN_PREFIX+user.getId();
+        Set<String> keys = redisTemplate.keys(prefix+"*");
+        for(String key : keys){
+            redisTemplate.opsForValue().set(key, JSON.toJSONString(user),1, TimeUnit.HOURS);
+        }
+        return ResponseDTO.success(user);
     }
 }

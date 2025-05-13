@@ -17,7 +17,7 @@
                         <div class="questions-id">{{question.id}}</div>
                         <div class="questions-title">{{question.title}}</div>
                         <div class="questions-tags">
-                            <p v-for="(tag,index) of question.tag">{{tag}}</p>
+                            <p v-for="(tag,index) of question.tags">{{tag}}</p>
                         </div>
                         <div class="questions-ac">{{question.submitCount==0?"-":((question.acceptedCount/question.submitCount)*100).toFixed(2)+'%'}}</div>
                     </div>
@@ -52,13 +52,9 @@ export default {
     data(){
         return{
             questions:[
-                {id: 1,title: "A+B",content: "计算两个数相加之和",tag:["简单","暴力"],submitCount: 0,acceptedCount: 0},
-                {id: 2,title: "A+B",content: "计算两个数相加之和",tag:["简单","暴力"],submitCount: 3,acceptedCount: 1},
-                {id: 3,title: "A+B",content: "计算两个数相加之和",tag:["简单","暴力"],submitCount: 0,acceptedCount: 0},
-                {id: 4,title: "A+B",content: "计算两个数相加之和",tag:["简单","暴力"],submitCount: 0,acceptedCount: 0},
             ],
-            currentPage:2,
-            total:100,
+            currentPage:1,
+            total:10,
             tags:["简单","字符串","中等","动态规划","暴力","困难","前缀和","二分","二叉树","暴力","图论","贪心","双指针","哈希","深度优先","堆"]
 
         }
@@ -70,15 +66,32 @@ export default {
         gotoQuestion(questionId){
             this.$router.push({
                 path:'/question-detail/'+questionId,
-            })
-        
+            });
         },
         handleCurrentChange(val){
-            console.log("页码被点击"+val)
+            this.currentPage = val;
+            this.listQuestions();
+        },
+        listQuestions(){
+            this.$axios({
+                url: '/api/question/list',
+                data: {
+                    currentpage:this.currentPage,
+                    pageSize:10
+                },
+                method:'POST'
+            }).then(res=>{
+                if(res.data.success){
+                    this.questions = res.data.data.questions;
+                    this.total = res.data.data.pageNum * 10;
+                }else{
+                    this.$message.error(res.data.message);
+                }
+            })
         }
     },
     mounted(){
-        console.log(this.$store.state)
+        this.listQuestions();
     }
 }
 </script>

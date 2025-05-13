@@ -9,4 +9,6 @@ public interface UserService {
     public User searchUserByAccount(String account);
 
     public User examAccount(String account,String password);
+
+    public Boolean updateUser(User user);
 }

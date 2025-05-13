@@ -45,6 +45,7 @@ public class QuestionSubmitServiceImpl implements QuestionSubmitService {
         QuestionSubmit questionSubmit = new QuestionSubmit();
         questionSubmit.setUid(submitDTO.getUser().getId());
         questionSubmit.setQuestionId(submitDTO.getQuestionId());
+        questionSubmit.setQuestionTitle(submitDTO.getQuestionTitle());
         questionSubmit.setCode(submitDTO.getCode());
         questionSubmit.setLanguage(submitDTO.getLanguage());
         questionSubmit.setStatus(SubmitStatusEnum.RUNNING.getValue());

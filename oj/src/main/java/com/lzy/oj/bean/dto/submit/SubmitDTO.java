@@ -11,4 +11,6 @@ public class SubmitDTO extends RequestDTO {
     private String code;
 
     private Long questionId;
+
+    private String questionTitle;
 }

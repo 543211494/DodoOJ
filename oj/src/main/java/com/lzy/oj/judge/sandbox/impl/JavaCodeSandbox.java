@@ -15,22 +15,6 @@ import java.util.List;
 
 public class JavaCodeSandbox implements CodeSandBox {
 
-    /* 构造一个用于测试的response */
-    private ExecuteCodeResponse test(){
-        ExecuteCodeResponse response = new ExecuteCodeResponse();
-        List<String> outputList = new ArrayList<>();
-        outputList.add("2\n");
-        outputList.add("3\n");
-        response.setOutputList(outputList);
-        response.setMessage(JudgeMessageEnum.SUCCESS.getText());
-        JudgeInfo judgeInfo = new JudgeInfo();
-        judgeInfo.setMemory(100L);
-        judgeInfo.setTime(100L);
-        judgeInfo.setMessage(JudgeMessageEnum.SUCCESS.getText());
-        response.setJudgeInfo(judgeInfo);
-        return response;
-    }
-
     @Override
     public ExecuteCodeResponse executeCode(ExecuteCodeRequest executeCodeRequest) {
         String url = "http://localhost:8081/api/java/executeCode";

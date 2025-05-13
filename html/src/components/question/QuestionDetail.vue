@@ -93,13 +93,13 @@ export default {
             ],
             question:{
                 id:0,
-                title:"Simple A + B Problem",
-                content:'## 题目描述\n请计算两个整数的和并输出结果。\n\n注意不要有不必要的输出，比如"请输入 a 和 b 的值: "。\n\n## 输入\n两个用空格分开的整数.\n```\n1 1\n```\n\n## 输出\n两数之和\n```\n2\n```',
+                title:"",
+                content:'',
                 judgeConfig:{
-                    memoryLimit:32768,
-                    timeLimit:3000
+                    memoryLimit:0,
+                    timeLimit:0
                 },
-                tag:["简单","暴力"]
+                tag:[]
             }
         }
     },
@@ -111,16 +111,55 @@ export default {
     methods:{
         gotoSubmit(){
             this.$router.push({
-                path:"/submit?questionId="+this.question.id
+                path:"/submit?questionId="+this.question.id+"&uid="+this.$store.state.user.id
             });
         },
         submit(){
-            console.log(this.code);
+            if(this.code==""){
+                this.$message.error('参数不能为空！');
+            }else{
+                this.$axios({
+                    url: '/api/submit/add',
+                    data: {
+                        token:this.$store.state.token,
+                        language:this.language,
+                        code:this.code,
+                        questionId:this.question.id,
+                        questionTitle:this.question.title
+                    },
+                    method:'POST'
+                }).then(res=>{
+                    if(res.data.success){
+                        console.log(res);
+                    }else{
+                        if(res.data.code=="103"){
+                            this.$store.state.user = null;
+                            this.$store.state.token = null;
+                            localStorage.clear();
+                            this.$message.error(res.data.message);
+                            this.goto("/login");
+                        }else{
+                            this.$message.error(res.data.message);
+                        }
+                    }
+                });
+            }
+        },
+        getQuestion(questionId){
+            this.$axios({
+                url:'/api/question/get?id='+questionId,
+                method:'GET'
+            }).then(res=>{
+                if(res.data.success){
+                    this.question = res.data.data;
+                }else{
+                    this.$message.error(res.data.message);
+                }
+            });
         }
     },
-    created(){
-        this.question.id = this.$route.params.id;
-        console.log("questionId:"+this.question.id);
+    mounted(){
+        this.getQuestion(this.$route.params.id);
     }
 }
 </script>

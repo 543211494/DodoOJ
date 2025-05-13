@@ -62,4 +62,12 @@ public class UserServiceImpl implements UserService {
             return null;
         }
     }
+
+    @Override
+    public Boolean updateUser(User user) {
+        if(user==null){
+            return false;
+        }
+        return userMapper.updateById(UserPO.user2PO(user))>0;
+    }
 }

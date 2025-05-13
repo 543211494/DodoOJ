@@ -8,7 +8,7 @@ public enum ErrorEnum {
     ROLE_ERROR(104,"没有操作权限"),
     LANGUAGE_ERROR(105,"不支持该语言"),
     QUESTION_NOT_EXIST_ERROR(106,"问题不存在"),
-    PARAM_ERROR(107,"参数错误");
+    PARAM_ERROR(107,"参数为空或格式错误");
 
     private Integer code;
     private String message;

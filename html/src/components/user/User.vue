@@ -51,7 +51,7 @@ export default {
                     },
                     method:'POST'
                 }).then(res=>{
-                    if(res.data.success){
+                    if(res.data.success||res.data.code=="103"){
                         this.$store.state.user = null;
                         this.$store.state.token = null;
                         localStorage.clear();
@@ -64,14 +64,13 @@ export default {
         }
     },
     mounted(){
-        console.log("user");
         if(this.$store.state.user!=null){
             this.user = this.$store.state.user;
         }
-        if(this.$store.state.user==null){
-            this.$message.error('请先登录！');
-            this.goto("/login");
-        }
+        // if(this.$store.state.user==null){
+        //     this.$message.error('请先登录！');
+        //     this.goto("/login");
+        // }
     }
 }
 </script>

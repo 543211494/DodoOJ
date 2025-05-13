@@ -52,6 +52,7 @@ export default {
     data(){
         return{
             questionId:null,
+            uid:null,
             submissions:[
                 {id:1,title: "A+B",questionId:1,language:"java",judgeInfo:{message:'Accepted',time:119},uid:1,createTime:"2025-05-12 06:14:05"},
                 {id:2,title: "A+B",questionId:1,language:"java",judgeInfo:{message:'Time Limit Exceeded',time:119},uid:1,createTime:"2025-05-12 06:14:05"},
@@ -78,6 +79,9 @@ export default {
     },
     mounted(){
         this.questionId = this.$route.query.questionId;
+        this.uid = this.$route.query.uid;
+        console.log(this.questionId);
+        console.log(this.uid);
         // console.log(this.questionId==null);
     }
 }

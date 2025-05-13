@@ -195,7 +195,10 @@ export default {
                         tags:this.question.tags,
                         answer:'-',
                         judgeCase:this.question.judgeCase,
-                        judgeConfig:this.question.judgeConfig
+                        judgeConfig:{
+                            memoryLimit:this.question.judgeConfig.memoryLimit*1024,
+                            timeLimit:this.question.judgeConfig.timeLimit
+                        }
                     },
                     method:'POST'
                 }).then(res=>{

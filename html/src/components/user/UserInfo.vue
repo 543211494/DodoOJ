@@ -68,17 +68,55 @@ export default {
         }
     },
     methods:{
+        goto(path){
+            this.$router.push({
+                path:path
+            })
+        },
         submit(){
-
+            if(this.validate()){
+                this.$axios({
+                    url: '/api/updateInfo',
+                    data: {
+                        token:this.$store.state.token,
+                        userName:this.user.userName,
+                        email:this.user.email
+                    },
+                    method:'POST'
+                }).then(res=>{
+                    if(res.data.success){
+                        this.$store.state.user = res.data.data;
+                        localStorage.setItem("user", JSON.stringify(this.$store.state.user));
+                        this.$message({message: '修改成功',type: 'success'});
+                    }else{
+                        if(res.data.code=="103"){
+                            this.$store.state.user = null;
+                            this.$store.state.token = null;
+                            localStorage.clear();
+                            this.$message.error(res.data.message);
+                            this.goto("/login");
+                        }else{
+                            this.$message.error(res.data.message);
+                        }
+                    }
+                });
+            }
+        },
+        validate(){
+            if(this.user.userName==""||this.user.email==""){
+                this.$message.error('参数不能为空！');
+                return false;
+            }
+            return true;
         }
     },
     mounted(){
-        if(this.$store.state.user!=null){
-            this.user = this.$store.state.user;
-        }
         if(this.$store.state.user==null){
             this.$message.error('请先登录！');
             this.goto("/login");
+        }
+        if(this.$store.state.user!=null){
+            this.user = this.$store.state.user;
         }
     }
 }
