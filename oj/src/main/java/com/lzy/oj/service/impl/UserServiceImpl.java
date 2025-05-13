@@ -42,6 +42,7 @@ public class UserServiceImpl implements UserService {
     public User searchUserByAccount(String account) {
         QueryWrapper<UserPO> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("account", account);
+        queryWrapper.eq("is_delete", 0);
         UserPO userPO = userMapper.selectOne(queryWrapper);
         if(userPO==null){
             return null;

@@ -33,6 +33,9 @@ public class QuestionSubmitPO {
     @TableField("question_id")
     private Long questionId;
 
+    @TableField("question_id")
+    private String questionTitle;
+
     @TableField("uid")
     private Long uid;
 
@@ -53,6 +56,7 @@ public class QuestionSubmitPO {
         questionSubmit.setJudgeInfo(JSON.parseObject(questionSubmitPO.getJudgeInfo(), JudgeInfo.class));
         questionSubmit.setStatus(questionSubmitPO.getStatus());
         questionSubmit.setQuestionId(questionSubmitPO.getQuestionId());
+        questionSubmit.setQuestionTitle(questionSubmitPO.getQuestionTitle());
         questionSubmit.setUid(questionSubmitPO.getUid());
         questionSubmit.setCreateTime(questionSubmitPO.getCreateTime());
         questionSubmit.setUpdateTime(questionSubmitPO.getUpdateTime());
@@ -68,6 +72,7 @@ public class QuestionSubmitPO {
         questionSubmitPO.setJudgeInfo(JSON.toJSONString(questionSubmit.getJudgeInfo()));
         questionSubmitPO.setStatus(questionSubmit.getStatus());
         questionSubmitPO.setQuestionId(questionSubmit.getQuestionId());
+        questionSubmitPO.setQuestionTitle(questionSubmit.getQuestionTitle());
         questionSubmitPO.setUid(questionSubmit.getUid());
         questionSubmitPO.setCreateTime(questionSubmit.getCreateTime());
         questionSubmitPO.setUpdateTime(questionSubmit.getUpdateTime());

@@ -21,6 +21,8 @@ public class QuestionSubmit {
 
     private Long questionId;
 
+    private String questionTitle;
+
     private Long uid;
 
     private Date createTime;

@@ -19,6 +19,9 @@ public class UserPO {
     @TableField("password")
     private String password;
 
+    @TableField("email")
+    private String email;
+
     @TableField("user_name")
     private String userName;
 
@@ -45,6 +48,7 @@ public class UserPO {
         userPO.setId(user.getId());
         userPO.setAccount(user.getAccount());
         userPO.setPassword(user.getPassword());
+        userPO.setEmail(user.getEmail());
         userPO.setUserName(user.getUserName());
         userPO.setAvatar(user.getAvatar());
         userPO.setProfile(user.getProfile());
@@ -60,6 +64,7 @@ public class UserPO {
         user.setId(userPO.getId());
         user.setAccount(userPO.getAccount());
         user.setPassword(userPO.getPassword());
+        user.setEmail(userPO.getEmail());
         user.setUserName(userPO.getUserName());
         user.setAvatar(userPO.getAvatar());
         user.setProfile(userPO.getProfile());
