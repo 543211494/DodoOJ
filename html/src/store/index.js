@@ -6,6 +6,8 @@ Vue.use(Vuex);
 const actions = {};
 
 const state = {
+    token:localStorage.getItem('token'),
+    user: JSON.parse(localStorage.getItem('user')),
 };
 console.log(state);
 /* 用于操作数据 */

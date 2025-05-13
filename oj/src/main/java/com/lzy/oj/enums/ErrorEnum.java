@@ -7,7 +7,8 @@ public enum ErrorEnum {
     NO_LOGIN_ERROR(103,"未登录"),
     ROLE_ERROR(104,"没有操作权限"),
     LANGUAGE_ERROR(105,"不支持该语言"),
-    QUESTION_NOT_EXIST_ERROR(106,"问题不存在");
+    QUESTION_NOT_EXIST_ERROR(106,"问题不存在"),
+    PARAM_ERROR(107,"参数错误");
 
     private Integer code;
     private String message;
@@ -23,6 +24,18 @@ public enum ErrorEnum {
         }
         for(ErrorEnum errorEnum : ErrorEnum.values()){
             if(errorEnum.code.intValue()==code.intValue()){
+                return errorEnum;
+            }
+        }
+        return null;
+    }
+
+    public static ErrorEnum getEnumByMessage(String message){
+        if(message==null){
+            return null;
+        }
+        for(ErrorEnum errorEnum : ErrorEnum.values()){
+            if(errorEnum.message.equals(message)){
                 return errorEnum;
             }
         }

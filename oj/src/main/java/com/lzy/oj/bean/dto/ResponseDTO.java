@@ -1,5 +1,6 @@
 package com.lzy.oj.bean.dto;
 
+import com.lzy.oj.enums.ErrorEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,11 +26,14 @@ public class ResponseDTO<T> {
      */
     private String message;
 
+    private String code;
+
     public static final <T> ResponseDTO success(T data) {
-        return new ResponseDTO(true, data, "");
+        return new ResponseDTO(true, data, "",null);
     }
 
     public static final <T> ResponseDTO fail(String message) {
-        return new ResponseDTO(false, null, message);
+        String code = String.valueOf(ErrorEnum.getEnumByMessage(message).getCode());
+        return new ResponseDTO(false, null,message,code);
     }
 }

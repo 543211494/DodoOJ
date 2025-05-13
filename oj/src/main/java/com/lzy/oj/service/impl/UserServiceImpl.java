@@ -53,6 +53,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User examAccount(String account, String password) {
         User user = this.searchUserByAccount(account);
+        if(user==null){
+            return null;
+        }
         if(user.getPassword().equals(DigestUtils.md5DigestAsHex((SALT+password).getBytes()))){
             return user;
         }else{

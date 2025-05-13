@@ -4,7 +4,7 @@
         <div class="content">
             <div class="register">
                 <h1>请填写注册信息！</h1>
-                <el-input placeholder="请输入帐号" v-model="userName" prefix-icon="el-icon-user-solid"></el-input>
+                <el-input placeholder="请输入帐号" v-model="account" prefix-icon="el-icon-user-solid"></el-input>
                 <el-input placeholder="请输入密码" v-model="password" show-password prefix-icon="el-icon-lock"></el-input>
                 <el-input placeholder="请再次输入密码" v-model="passwordAgain" show-password prefix-icon="el-icon-lock"></el-input>
                 <div class="register-btn" @click="register">注册</div>
@@ -20,7 +20,7 @@ import Header from './Header.vue'
 export default {
     data(){
         return{
-            userName:'',
+            account:'',
             password:'',
             passwordAgain:''
         }
@@ -35,7 +35,36 @@ export default {
             })
         },
         register(){
-            
+            if(this.validate()){
+                this.$axios({
+                url: '/api/register',
+                data: {
+                    account:this.account,
+                    password:this.password,
+                    checkPassword:this.passwordAgain
+                },
+                method:'POST'
+            }).then(res => {
+                // console.log(res);
+                if(res.data.success){
+                    this.$message({message: '注册成功',type: 'success'});
+                    this.goto("/login");
+                }else{
+                    this.$message.error(res.data.message);
+                }
+            });
+            }
+        },
+        validate(){
+            if(this.account==""||this.password==""||this.passwordAgain==""){
+                this.$message.error('参数不能为空！');
+                return false;
+            }
+            if(this.password!=this.passwordAgain){
+                this.$message.error('两次密码不一致！');
+                return false;
+            }
+            return true;
         }
     }
 }

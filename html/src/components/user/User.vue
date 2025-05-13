@@ -34,11 +34,37 @@ export default {
         Header:Header,
     },
     methods:{
+        goto(path){
+            this.$router.push({
+                path:path
+            })
+        },
         logout(){
-
+            if(this.$store.state.user!=null){
+                this.$axios({
+                    url: '/api/logout',
+                    data: {
+                        token:this.$store.state.token
+                    },
+                    method:'POST'
+                }).then(res=>{
+                    if(res.data.success){
+                        this.$store.state.user = null;
+                        this.$store.state.token = null;
+                        localStorage.clear();
+                        this.goto("/");
+                    }else{
+                        this.$message.error(res.data.message);
+                    }
+                })
+            }
         }
     },
     mounted(){
+        if(this.$store.state.user==null){
+            this.$message.error('请先登录！');
+            this.goto("/login");
+        }
     }
 }
 </script>

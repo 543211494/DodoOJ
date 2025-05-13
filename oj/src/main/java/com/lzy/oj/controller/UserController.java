@@ -34,6 +34,9 @@ public class UserController {
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     public ResponseDTO<Long> register(@RequestBody RegisterDTO registerDTO){
         User user = new User();
+        if(!registerDTO.validate()){
+            throw new BusinessException(ErrorEnum.PARAM_ERROR);
+        }
         if(!registerDTO.getPassword().equals(registerDTO.getCheckPassword())){
             throw new BusinessException(ErrorEnum.PASSWORD_NOT_EQUAL_ERROR);
         }
@@ -48,6 +51,7 @@ public class UserController {
         User user = userService.examAccount(loginDTO.getAccount(),loginDTO.getPassword());
         if(user!=null){
             LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
+            user.setPassword(null);
             loginResponseDTO.setUser(user);
             String prefix = TOKEN_PREFIX+user.getId();
             Set<String> keys = redisTemplate.keys(prefix+"*");
