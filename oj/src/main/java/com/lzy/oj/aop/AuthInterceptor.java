@@ -28,7 +28,11 @@ public class AuthInterceptor {
         String role = authCheck.role();
         if(StringUtils.isNotBlank(role)){
             RequestDTO arg = (RequestDTO) joinPoint.getArgs()[0];
+            if(arg.getToken()==null){
+                throw new BusinessException(ErrorEnum.NO_LOGIN_ERROR);
+            }
             String value = (String) redisTemplate.opsForValue().get(arg.getToken());
+            System.out.println("value"+value);
             if(StringUtils.isBlank(value)){
                 throw new BusinessException(ErrorEnum.NO_LOGIN_ERROR);
             }

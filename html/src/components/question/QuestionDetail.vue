@@ -8,7 +8,7 @@
                         {{question.title}}
                     </div>
                     <div class="question-tags">
-                        <p v-for="(tag,index) of question.tag">{{tag}}</p>
+                        <p v-for="(tag,index) of question.tags">{{tag}}</p>
                     </div>
                 </div>
                 <div class="question-content">
@@ -47,7 +47,7 @@
             </div>
             <div class="right-container">
                 <div class="submit-log" @click="gotoSubmit">
-                    <i class="el-icon-tickets">提交记录</i>
+                    <i class="el-icon-tickets">本题提交记录</i>
                 </div>
 
                 <div class="question-info">
@@ -109,6 +109,11 @@ export default {
         CodeEditor:CodeEditor
     },
     methods:{
+        goto(path){
+            this.$router.push({
+                path:path
+            })
+        },
         gotoSubmit(){
             this.$router.push({
                 path:"/submit?questionId="+this.question.id+"&uid="+this.$store.state.user.id
@@ -130,7 +135,8 @@ export default {
                     method:'POST'
                 }).then(res=>{
                     if(res.data.success){
-                        console.log(res);
+                        // console.log(res);
+                        this.$message({message: '提交成功',type: 'success'});
                     }else{
                         if(res.data.code=="103"){
                             this.$store.state.user = null;

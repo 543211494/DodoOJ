@@ -18,13 +18,14 @@
                     </div>
                     <div class="submissions" v-for="(submission,index) of submissions" :key="submission.id" @click="gotoQuestion(submission.questionId)">
                         <div>{{submission.id}}</div>
-                        <div>{{submission.title}}</div>
+                        <div>{{submission.questionTitle}}</div>
                         <div>{{submission.language}}</div>
                         <div class="submission-message">
                             <p class="submission-message-ac" v-if="submission.judgeInfo.message=='Accepted'">{{submission.judgeInfo.message}}</p>
                             <p class="submission-message-wa" v-if="submission.judgeInfo.message!=='Accepted'">{{submission.judgeInfo.message}}</p>
                         </div>
-                        <div>{{submission.judgeInfo.time}}ms</div>
+                        <div v-if="submission.judgeInfo.message=='Accepted'">{{submission.judgeInfo.time}}ms</div>
+                        <div v-if="submission.judgeInfo.message!='Accepted'">-</div>
                         <div>{{submission.uid}}</div>
                         <div>{{submission.createTime}}</div>
                     </div>
@@ -54,13 +55,9 @@ export default {
             questionId:null,
             uid:null,
             submissions:[
-                {id:1,title: "A+B",questionId:1,language:"java",judgeInfo:{message:'Accepted',time:119},uid:1,createTime:"2025-05-12 06:14:05"},
-                {id:2,title: "A+B",questionId:1,language:"java",judgeInfo:{message:'Time Limit Exceeded',time:119},uid:1,createTime:"2025-05-12 06:14:05"},
-                {id:3,title: "A+B",questionId:1,language:"java",judgeInfo:{message:'Compile Error',time:119},uid:1,createTime:"2025-05-12 06:14:05"},
-                {id:4,title: "A+B",questionId:1,language:"java",judgeInfo:{message:'Accepted',time:119},uid:1,createTime:"2025-05-12 06:14:05"},
             ],
-            currentPage:2,
-            total:100
+            currentPage:1,
+            total:10
         }
     },
     components:{
@@ -74,14 +71,36 @@ export default {
         
         },
         handleCurrentChange(val){
-            console.log("页码被点击"+val)
+            this.currentPage = val;
+            this.listSubmitList();
+        },
+        listSubmitList(){
+            this.$axios({
+                url: '/api/submit/list',
+                data: {
+                    currentPage:this.currentPage,
+                    pageSize:10,
+                    uid:this.uid,
+                    questionId:this.questionId
+                },
+                method:'POST'
+            }).then(res=>{
+                if(res.data.success){
+                    res.data.data.submitList.forEach((value,index,array)=>{
+                        array[index].createTime = array[index].createTime.split('T')[0]
+                    })
+                    this.submissions = res.data.data.submitList;
+                    this.total = res.data.data.pageNum * 10;
+                }else{
+                    this.$message.error(res.data.message);
+                }
+            });
         }
     },
     mounted(){
         this.questionId = this.$route.query.questionId;
         this.uid = this.$route.query.uid;
-        console.log(this.questionId);
-        console.log(this.uid);
+        this.listSubmitList();
         // console.log(this.questionId==null);
     }
 }

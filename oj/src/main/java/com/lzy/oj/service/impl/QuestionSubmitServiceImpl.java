@@ -104,7 +104,7 @@ public class QuestionSubmitServiceImpl implements QuestionSubmitService {
             queryWrapper.eq("question_id",questionId);
         }
         queryWrapper.eq("is_delete",0);
-        queryWrapper.orderByAsc("id");
+        queryWrapper.orderByDesc("id");
         questionSubmitMapper.selectPage(page,queryWrapper);
         return page.getRecords().stream()
                 .map(questionSubmitPO -> {

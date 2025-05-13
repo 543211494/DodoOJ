@@ -30,3 +30,8 @@ server:
   port: 8080
   servlet:
     context-path: /api
+
+codesandbox:
+  java:
+    host: 127.0.0.1
+    port: 8081

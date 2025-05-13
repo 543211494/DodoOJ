@@ -31,7 +31,7 @@ public class QuestionServiceImpl implements QuestionService {
         Page<QuestionPO> page = new Page<>(currentPage,pageSize);
         QueryWrapper<QuestionPO> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("is_delete",0);
-        queryWrapper.orderByAsc("id");
+        queryWrapper.orderByDesc("id");
         questionMapper.selectPage(page,queryWrapper);
         return page.getRecords().stream()
                 .map(questionPO -> {

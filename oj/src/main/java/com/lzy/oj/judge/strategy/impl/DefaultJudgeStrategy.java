@@ -10,7 +10,7 @@ import com.lzy.oj.judge.strategy.JudgeStrategy;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class JavaJudgeStrategy implements JudgeStrategy {
+public class DefaultJudgeStrategy implements JudgeStrategy {
 
     /**
      * 运行容器所需额外的内存

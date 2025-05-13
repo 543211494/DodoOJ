@@ -33,7 +33,7 @@ public class QuestionSubmitPO {
     @TableField("question_id")
     private Long questionId;
 
-    @TableField("question_id")
+    @TableField("question_title")
     private String questionTitle;
 
     @TableField("uid")
