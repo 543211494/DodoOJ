@@ -60,10 +60,10 @@ export default {
         return{
             user:{
                 id:1,
-                account:"admin",
-                userName:"普通用户",
-                role:"管理员",
-                email:"124567@qq.com"
+                account:"",
+                userName:"",
+                role:"",
+                email:""
             }
         }
     },
@@ -73,6 +73,13 @@ export default {
         }
     },
     mounted(){
+        if(this.$store.state.user!=null){
+            this.user = this.$store.state.user;
+        }
+        if(this.$store.state.user==null){
+            this.$message.error('请先登录！');
+            this.goto("/login");
+        }
     }
 }
 </script>

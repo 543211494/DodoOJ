@@ -43,6 +43,12 @@ export default {
                 path:path
             })
         },
+    },
+    mounted(){
+        if(this.$store.state.user!=null){
+            this.isLogin=true;
+            this.userName = this.$store.state.user.userName;
+        }
     }
 }
 </script>

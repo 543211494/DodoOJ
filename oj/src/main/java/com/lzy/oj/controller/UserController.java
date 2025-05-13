@@ -43,6 +43,7 @@ public class UserController {
         user.setAccount(registerDTO.getAccount());
         user.setPassword(registerDTO.getPassword());
         user.setRole(UserRoleConstant.USER);
+        user.setUserName("user");
         return ResponseDTO.success(userService.register(user));
     }
 

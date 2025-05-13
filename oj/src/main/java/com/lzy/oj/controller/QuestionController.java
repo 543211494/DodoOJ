@@ -3,16 +3,14 @@ package com.lzy.oj.controller;
 import com.alibaba.fastjson.JSON;
 import com.lzy.oj.annotation.AuthCheck;
 import com.lzy.oj.bean.dto.ResponseDTO;
-import com.lzy.oj.bean.dto.question.QuestionAddDTO;
-import com.lzy.oj.bean.dto.question.QuestionDeleteDTO;
-import com.lzy.oj.bean.dto.question.QuestionListDTO;
-import com.lzy.oj.bean.dto.question.QuestionListResponseDTO;
+import com.lzy.oj.bean.dto.question.*;
 import com.lzy.oj.bean.entity.Question;
 import com.lzy.oj.constant.UserRoleConstant;
 import com.lzy.oj.service.QuestionService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/question")
@@ -25,6 +23,19 @@ public class QuestionController {
     @AuthCheck(role = UserRoleConstant.ADMIN)
     public ResponseDTO<Long> addQuestion(@RequestBody QuestionAddDTO questionAddDTO){
         Question question = new Question();
+        /* 在末尾添加换行符 */
+        List<JudgeCase> judgeCases = questionAddDTO.getJudgeCase();
+        if(judgeCases!=null){
+            for(int i = 0;i<judgeCases.size();i++){
+                JudgeCase judgeCase = judgeCases.get(i);
+                if(!judgeCase.getInput().endsWith("\n")){
+                    judgeCase.setInput(judgeCase.getInput()+"\n");
+                }
+                if(!judgeCase.getOutput().endsWith("\n")){
+                    judgeCase.setOutput(judgeCase.getOutput()+"\n");
+                }
+            }
+        }
         question.setTitle(questionAddDTO.getTitle());
         question.setContent(questionAddDTO.getContent());
         question.setTags(JSON.toJSONString(questionAddDTO.getTags()));

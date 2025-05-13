@@ -80,7 +80,7 @@
             </div>
         </div>
         <div class="submit">
-            <div class="submit-btn">提交题目信息</div>
+            <div class="submit-btn" @click="submit">提交题目信息</div>
         </div>
     </div>
 </template>
@@ -157,11 +157,72 @@ export default {
             if(this.question.judgeCase.length > 1){
                 this.question.judgeCase.pop()
             }else{
-                this.$message({message: '至少要有1个标签',type: 'warning'});
+                this.$message({message: '至少要有1个样例',type: 'warning'});
+            }
+        },
+        goto(path){
+            this.$router.push({
+                path:path
+            })
+        },
+        isEmpty(obj) {
+            // 基础类型直接判断
+            if (obj === null || obj === "") {
+                return true;
+            }
+
+            // 检查数组（包括嵌套数组）
+            if (Array.isArray(obj)) {
+                return obj.some(item => this.isEmpty(item));
+            }
+
+            // 检查对象（包括嵌套对象）
+            if (typeof obj === 'object' && obj !== null) {
+                return Object.values(obj).some(value => this.isEmpty(value));
+            }
+
+            // 其他类型（数字、布尔等）视为有效
+            return false;
+        },
+        submit(){
+            if(!this.isEmpty(this.question)){
+                this.$axios({
+                    url: '/api/question/add',
+                    data: {
+                        token:this.$store.state.token,
+                        title:this.question.title,
+                        content:this.question.content,
+                        tags:this.question.tags,
+                        answer:'-',
+                        judgeCase:this.question.judgeCase,
+                        judgeConfig:this.question.judgeConfig
+                    },
+                    method:'POST'
+                }).then(res=>{
+                    if(res.data.success){
+                        this.$message({message: '发布成功',type: 'success'});
+                    }else{
+                        if(res.data.code=="103"){
+                            this.$store.state.user = null;
+                            this.$store.state.token = null;
+                            localStorage.clear();
+                            this.$message.error(res.data.message);
+                            this.goto("/login");
+                        }else{
+                            this.$message.error(res.data.message);
+                        }
+                    }
+                });
+            }else{
+                this.$message.error('参数不能为空！');
             }
         }
     },
     mounted(){
+        if(this.$store.state.user==null){
+            this.$message.error('请先登录！');
+            this.goto("/login");
+        }
     }
 }
 </script>

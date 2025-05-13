@@ -6,12 +6,12 @@
                 <div class="user-container-left">
                     <div class="user-container-left-img" >
                         <img :src="require('../../assets/avatar.jpg')"/>
-                        <div>用户姓名</div>
+                        <div>{{user.userName}}</div>
                     </div>
                     <div class="line"></div>
                     <div class="user-container-left-choice">
                         <router-link to="/user/userInfo" active-class="active"><i class="el-icon-user"></i>个人信息</router-link>
-                        <router-link to="/user/addQuestion" active-class="active"><i class="el-icon-paperclip"></i>添加题目</router-link>
+                        <router-link to="/user/addQuestion" active-class="active"><i class="el-icon-paperclip"></i>发布题目</router-link>
                         <a @click="logout()"><i class="el-icon-refresh-left"></i>退出登录</a>
                     </div>
                 </div>
@@ -28,6 +28,9 @@ import Header from '../Header.vue'
 export default {
     data(){
         return{
+            user:{
+                userName:''
+            }
         }
     },
     components:{
@@ -61,6 +64,10 @@ export default {
         }
     },
     mounted(){
+        console.log("user");
+        if(this.$store.state.user!=null){
+            this.user = this.$store.state.user;
+        }
         if(this.$store.state.user==null){
             this.$message.error('请先登录！');
             this.goto("/login");
