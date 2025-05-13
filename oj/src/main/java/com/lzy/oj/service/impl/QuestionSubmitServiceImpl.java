@@ -1,6 +1,7 @@
 package com.lzy.oj.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lzy.oj.bean.dto.submit.SubmitDTO;
 import com.lzy.oj.bean.entity.Question;
 import com.lzy.oj.bean.entity.QuestionSubmit;
@@ -18,7 +19,9 @@ import com.lzy.oj.service.QuestionSubmitService;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Repository
 public class QuestionSubmitServiceImpl implements QuestionSubmitService {
@@ -88,6 +91,38 @@ public class QuestionSubmitServiceImpl implements QuestionSubmitService {
     @Override
     public Boolean updateSubmitById(QuestionSubmit questionSubmit) {
         return questionSubmitMapper.updateById(QuestionSubmitPO.submit2PO(questionSubmit)) > 0;
+    }
+
+    @Override
+    public List<QuestionSubmit> listQuestionSubmit(Integer currentPage, Integer pageSize, Long uid, Long questionId) {
+        Page<QuestionSubmitPO> page = new Page<>(currentPage,pageSize);
+        QueryWrapper<QuestionSubmitPO> queryWrapper = new QueryWrapper<>();
+        if(uid!=null){
+            queryWrapper.eq("uid",uid);
+        }
+        if(questionId!=null){
+            queryWrapper.eq("question_id",questionId);
+        }
+        queryWrapper.eq("is_delete",0);
+        queryWrapper.orderByAsc("id");
+        questionSubmitMapper.selectPage(page,queryWrapper);
+        return page.getRecords().stream()
+                .map(questionSubmitPO -> {
+                    return QuestionSubmitPO.po2Submit(questionSubmitPO);
+                }).collect(Collectors.toList());
+    }
+
+    @Override
+    public Long countQuestionSubmit(Long uid, Long questionId) {
+        QueryWrapper<QuestionSubmitPO> queryWrapper = new QueryWrapper<>();
+        if(uid!=null){
+            queryWrapper.eq("uid",uid);
+        }
+        if(questionId!=null){
+            queryWrapper.eq("question_id",questionId);
+        }
+        queryWrapper.eq("is_delete",0);
+        return questionSubmitMapper.selectCount(queryWrapper);
     }
 
 }

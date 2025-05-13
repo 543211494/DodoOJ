@@ -1,9 +1,9 @@
-package com.lzy.oj.bean.dto.question;
+package com.lzy.oj.bean.dto.submit;
 
 import lombok.Data;
 
 @Data
-public class QuestionListDTO{
+public class SubmitListDTO {
 
     /**
      * 页码，从1开始
@@ -11,4 +11,8 @@ public class QuestionListDTO{
     private Integer currentPage;
 
     private Integer pageSize;
+
+    private Long uid;
+
+    private Long questionId;
 }

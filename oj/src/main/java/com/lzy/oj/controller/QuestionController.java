@@ -49,7 +49,7 @@ public class QuestionController {
     @RequestMapping(value = "/list",method = RequestMethod.POST)
     public ResponseDTO<QuestionListResponseDTO> listQuestion(@RequestBody QuestionListDTO questionListDTO){
         QuestionListResponseDTO responseDTO = new QuestionListResponseDTO();
-        Integer currentPage = questionListDTO.getCurrentpage();
+        Integer currentPage = questionListDTO.getCurrentPage();
         Integer pageSize = questionListDTO.getPageSize();
         Integer sum = questionService.countQuestions().intValue();
         responseDTO.setPageNum((long) (sum/pageSize + (sum%pageSize==0?0:1)));

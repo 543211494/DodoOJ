@@ -76,7 +76,7 @@ export default {
             this.$axios({
                 url: '/api/question/list',
                 data: {
-                    currentpage:this.currentPage,
+                    currentPage:this.currentPage,
                     pageSize:10
                 },
                 method:'POST'
