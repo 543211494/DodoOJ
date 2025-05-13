@@ -16,10 +16,6 @@
                 <i class="el-icon-user"></i>
                 <p>个人中心</p>
             </div>
-            <div @click="goto('/')">
-                <i class="el-icon-edit"></i>
-                <p>题库</p>
-            </div>
         </div>
         <div class="user-choice">
             <div class="user-btn" v-show="!isLogin" @click='goto("/login")'>登录</div>

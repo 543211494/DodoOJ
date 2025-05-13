@@ -13,7 +13,7 @@
                         <div>编程语言</div>
                         <div>结果</div>
                         <div>耗时</div>
-                        <div>提交者</div>
+                        <div>提交者ID</div>
                         <div>创建时间</div>
                     </div>
                     <div class="submissions" v-for="(submission,index) of submissions" :key="submission.id" @click="gotoQuestion(submission.questionId)">
@@ -25,7 +25,7 @@
                             <p class="submission-message-wa" v-if="submission.judgeInfo.message!=='Accepted'">{{submission.judgeInfo.message}}</p>
                         </div>
                         <div>{{submission.judgeInfo.time}}ms</div>
-                        <div>{{submission.userName}}</div>
+                        <div>{{submission.uid}}</div>
                         <div>{{submission.createTime}}</div>
                     </div>
                 </div>
@@ -53,10 +53,10 @@ export default {
         return{
             questionId:null,
             submissions:[
-                {id:1,title: "A+B",questionId:1,language:"java",judgeInfo:{message:'Accepted',time:119},userName:"用户1",createTime:"2025-05-12 06:14:05"},
-                {id:2,title: "A+B",questionId:1,language:"java",judgeInfo:{message:'Time Limit Exceeded',time:119},userName:"用户1",createTime:"2025-05-12 06:14:05"},
-                {id:3,title: "A+B",questionId:1,language:"java",judgeInfo:{message:'Compile Error',time:119},userName:"用户1",createTime:"2025-05-12 06:14:05"},
-                {id:4,title: "A+B",questionId:1,language:"java",judgeInfo:{message:'Accepted',time:119},userName:"用户1",createTime:"2025-05-12 06:14:05"},
+                {id:1,title: "A+B",questionId:1,language:"java",judgeInfo:{message:'Accepted',time:119},uid:1,createTime:"2025-05-12 06:14:05"},
+                {id:2,title: "A+B",questionId:1,language:"java",judgeInfo:{message:'Time Limit Exceeded',time:119},uid:1,createTime:"2025-05-12 06:14:05"},
+                {id:3,title: "A+B",questionId:1,language:"java",judgeInfo:{message:'Compile Error',time:119},uid:1,createTime:"2025-05-12 06:14:05"},
+                {id:4,title: "A+B",questionId:1,language:"java",judgeInfo:{message:'Accepted',time:119},uid:1,createTime:"2025-05-12 06:14:05"},
             ],
             currentPage:2,
             total:100

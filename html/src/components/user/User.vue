@@ -126,16 +126,20 @@ export default {
 /* .body{
     height: 520px;
 } */
+.content{
+    padding-top: 0px;
+    border-top: 1px #E6E6E6 solid;
+}
 .user-container{
     padding: 4px;
 }
 .user-container{
-    width: 94%;
+    width: 100%;
     height: 94%;
 }
-/* .user-container-left{
-    width: 2%;
-} */
+.user-container-left{
+    width: 14%;
+}
 .user-container-left-img > img{
     margin-bottom: 2px;
     height: 40px;

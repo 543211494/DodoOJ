@@ -34,7 +34,14 @@
                     </el-pagination>
                 </div>
             </div>
-
+            <div class="tags">
+                <div class="tags-titile">
+                    <p>热门标签</p>
+                </div>
+                <div class="tags-container">
+                    <div class="tag" v-for="tag in tags">{{tag}}</div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -51,7 +58,8 @@ export default {
                 {id: 4,title: "A+B",content: "计算两个数相加之和",tag:["简单","暴力"],submitCount: 0,acceptedCount: 0},
             ],
             currentPage:2,
-            total:100
+            total:100,
+            tags:["简单","字符串","中等","动态规划","暴力","困难","前缀和","二分","二叉树","暴力","图论","贪心","双指针","哈希","深度优先","堆"]
 
         }
     },
@@ -92,7 +100,7 @@ export default {
     background: #ECECEC;
 }
 .question{
-    width: 80%;
+    width: 75%;
 }
 
 .question-list-nav{
@@ -172,6 +180,42 @@ export default {
   margin: 0 5px;
   background: #FFFFFF;
 }
+
+/* 右侧标签栏目 */
+.tags{
+    width: 15%;
+    margin-left: 3%;
+    background-color: #FFFFFF;
+    padding: 8px;
+    height: 90%;
+}
+.tags-titile{
+    display: flex;
+}
+.tags-titile{
+    padding-top: 10px;
+    padding-bottom: 20px;
+    color: #495060;
+    font-weight: bolder;
+    font-size: 22px;
+}
+.tags-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+.tags-container > div{
+    color: #495060;
+    border: 1px #DDDEE1 solid;
+    padding: 5px 15px 5px 15px;
+    border-radius: 8px;
+    margin-right: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+.tags-container > div:hover{
+    color: #57A3F3;
+    border: 1px #57A3F3 solid;
+}
 @media screen and (max-width: 900px){
 .question{
     width: 96%;
@@ -203,6 +247,9 @@ export default {
     margin-left: 2px;
     margin-right: 2px;
     padding: 3px 5px 3px 5px;
+}
+.tags{
+    display: none;
 }
 }
 </style>
