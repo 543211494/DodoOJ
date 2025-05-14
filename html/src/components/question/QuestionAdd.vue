@@ -1,7 +1,7 @@
 <template>
     <div class="question-add-container">
         <div class="title">
-            <p>添加题目</p>
+            <p>发布题目</p>
         </div>
         <div class="question-title">
             <div class="question-title-input">

@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS submit
     is_delete   tinyint  default 0                 not null comment '是否删除',
     index idx_question_id (id),
     index idx_uid (uid)
-) comment '题目提交';
+) comment '题目提交' collate = utf8mb4_unicode_ci;
 
 -- 标签表
 DROP TABLE IF EXISTS tag;
@@ -72,4 +72,4 @@ CREATE TABLE IF NOT EXISTS tag(
     update_time datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
     is_delete   tinyint  default 0                 not null comment '是否删除',
     index idx_tag_id (id)
-) comment '标签';
+) comment '标签' collate = utf8mb4_unicode_ci;

@@ -85,9 +85,17 @@ export default {
                 },
                 method:'POST'
             }).then(res=>{
+                // console.log(res);
                 if(res.data.success){
                     res.data.data.submitList.forEach((value,index,array)=>{
                         array[index].createTime = array[index].createTime.split('T')[0]
+                        if(array[index].judgeInfo==null){
+                            array[index].judgeInfo={
+                                memory:"-",
+                                message:"-",
+                                time:"-"
+                            };
+                        }
                     })
                     this.submissions = res.data.data.submitList;
                     this.total = res.data.data.pageNum * 10;
@@ -100,6 +108,7 @@ export default {
     mounted(){
         this.questionId = this.$route.query.questionId;
         this.uid = this.$route.query.uid;
+        // console.log(1);
         this.listSubmitList();
         // console.log(this.questionId==null);
     }
