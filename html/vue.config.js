@@ -28,13 +28,13 @@ module.exports = defineConfig({
         },
         client: {
             overlay: {
-              runtimeErrors: (error) => {
-                // 忽略 ResizeObserver 相关警告
-                if (error.message.includes('ResizeObserver')) {
-                  return false;
-                }
-                return true;
-              },
+                runtimeErrors: (error) => {
+                    // 忽略 ResizeObserver 相关警告
+                    // if (error.message.includes('ResizeObserver')) {
+                    // return false;
+                    // }
+                    return false;
+                },
             },
         }
     },
