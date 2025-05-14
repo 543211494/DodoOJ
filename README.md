@@ -2,7 +2,7 @@
 
 ## 1.概述
 
-![Static Badge](https://img.shields.io/badge/java-1.8-green?style=flat)![Static Badge](https://img.shields.io/badge/springboot-2.6.8-green?style=flat)![Static Badge](https://img.shields.io/badge/docker-20.10.14-green?style=flat)
+![Static Badge](https://img.shields.io/badge/java-1.8-green?style=flat)  ![Static Badge](https://img.shields.io/badge/springboot-2.6.8-green?style=flat)  ![Static Badge](https://img.shields.io/badge/docker-20.10.14-green?style=flat)
 
 > 一个小而全的OnlineJudge系统，基于java和Vue实现
 
