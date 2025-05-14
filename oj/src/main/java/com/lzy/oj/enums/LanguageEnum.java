@@ -2,7 +2,8 @@ package com.lzy.oj.enums;
 
 public enum LanguageEnum {
 
-    JAVA("java");
+    JAVA("java"),
+    PYTHON("python");
 
     private String value;
 

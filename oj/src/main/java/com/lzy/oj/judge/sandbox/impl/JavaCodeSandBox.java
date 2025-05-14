@@ -7,19 +7,16 @@ import com.lzy.oj.judge.sandbox.CodeSandBoxConfig;
 import com.lzy.oj.judge.sandbox.dto.ExecuteCodeRequest;
 import com.lzy.oj.judge.sandbox.dto.ExecuteCodeResponse;
 
-public class JavaCodeSandbox implements CodeSandBox {
+public class JavaCodeSandBox implements CodeSandBox {
 
     @Override
     public ExecuteCodeResponse executeCode(ExecuteCodeRequest executeCodeRequest) {
         String url = CodeSandBoxConfig.getJavaUrl();
-        System.out.println(url);
         String json = JSON.toJSONString(executeCodeRequest);
-        System.out.println(json);
         String response = HttpUtil.createPost(url)
                 .body(json)
                 .execute()
                 .body();
-        System.out.println(response);
         return JSON.parseObject(response,ExecuteCodeResponse.class);
     }
 }

@@ -14,14 +14,27 @@ public class CodeSandBoxConfig {
     @Value("${codesandbox.java.port}")
     private Integer javaPort;
 
+    @Value("${codesandbox.python.host}")
+    private String pythonHost;
+
+    @Value("${codesandbox.python.port}")
+    private Integer pythonPort;
+
     private static String javaURL;
+
+    private static String pythonURL;
 
     @PostConstruct
     public void init() {
         javaURL = "http://"+this.javaHost+":"+javaPort+"/api/java/executeCode";
+        pythonURL = "http://"+this.pythonHost+":"+pythonPort+"/api/python/executeCode";
     }
 
     public static String getJavaUrl() {
         return javaURL;
+    }
+
+    public static String getPythonUrl(){
+        return pythonURL;
     }
 }
