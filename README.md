@@ -129,7 +129,7 @@ public class JavaDockerSandBox extends DockerSandBoxTemplate{
     public String createRunCmd(String path){
         return String.format("java -Xmx256m -Dfile.encoding=UTF-8 -cp %s Main", path);
     }
-
+}
 ```
 
 沙箱url地址相关信息可在调用方的`application.yml`中配置
