@@ -151,5 +151,7 @@ codesandbox:
 sudo grep docker /etc/group
 # 将当前用户追加进docker用户组
 sudo usermod -aG docker $USER
+# 更新
+newgrp docker
 ```
 
