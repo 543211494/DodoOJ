@@ -1,10 +1,15 @@
 # DodoOJ
 
-![Static Badge](https://img.shields.io/badge/java-1.8-green?style=flat)  ![Static Badge](https://img.shields.io/badge/springboot-2.6.8-green?style=flat)  ![Static Badge](https://img.shields.io/badge/docker-20.10.14-green?style=flat)
+![Static Badge](https://img.shields.io/badge/java-1.8-green?style=flat)  ![Static Badge](https://img.shields.io/badge/springboot-2.6.8-green?style=flat)  ![Static Badge](https://img.shields.io/badge/docker-20.10.14-green?style=flat) ![Static Badge](https://img.shields.io/badge/mysql-5.7-green?style=flat) ![Static Badge](https://img.shields.io/badge/redis-5.0-green?style=flat)
 
 > 一个小而全的OnlineJudge系统，基于java和Vue实现
 
+Github仓库：<a href="https://github.com/543211494/DodoOJ">https://github.com/543211494/DodoOJ</a>
+
+Gitee镜像仓库：<a href="https://gitee.com/lhalzy/DodoOJ">https://gitee.com/lhalzy/DodoOJ</a>
+
 ## 1.概述
+
 
 项目文件结构
 
